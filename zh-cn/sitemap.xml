@@ -17,9 +17,29 @@
   </url><url>
     <loc>https://kun123.xyz/page/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/page/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/page/"
+                />
   </url><url>
     <loc>https://kun123.xyz/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/archives/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/archives/"
+                />
   </url><url>
     <loc>https://kun123.xyz/categories/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
@@ -73,9 +93,39 @@
   </url><url>
     <loc>https://kun123.xyz/%E5%85%B3%E4%BA%8E/</loc>
     <lastmod>2020-10-09T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/%E5%85%B3%E4%BA%8E/"
+                />
   </url><url>
     <loc>https://kun123.xyz/search/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/search/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/search/"
+                />
   </url><url>
     <loc>https://kun123.xyz/%E5%8F%8B%E9%93%BE/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/links/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/%E5%8F%8B%E9%93%BE/"
+                />
   </url>
 </urlset>
