@@ -1,8 +1,8 @@
 baseurl: https://kun123.xyz/
 languageCode: en-us
 theme: hugo-theme-stack
-title: Example Site
-copyright: Example Person
+title: 鲲的琴盒
+copyright: Kun
 
 # Theme i18n support
 # Available values: en, zh-cn
@@ -15,18 +15,18 @@ hasCJKLanguage: true
 languages:
     zh-cn:
         languageName: 简体中文
-        title: 演示站点
+        title: 鲲的琴盒
         weight: 1
         params:
             sidebar:
-                subtitle: 演示说明
+                subtitle: "wechat: p870524302"
     en:
         languageName: English
-        title: Example Site
+        title: Kun's Music Box
         weight: 2
         params:
             sidebar:
-                subtitle: Example description
+                subtitle: "wechat: p870524302"
 
 services:
     # Change it to your Disqus shortname before using
