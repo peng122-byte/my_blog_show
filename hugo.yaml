@@ -5,7 +5,7 @@ title: Example Site
 copyright: Example Person
 
 # Theme i18n support
-# Available values: ar, bn, ca, de, el, en, es, fr, hu, id, it, ja, ko, nl, pt-br, th, uk, zh-cn, zh-hk, zh-tw
+# Available values: en, zh-cn
 DefaultContentLanguage: zh-cn
 
 # Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
@@ -13,44 +13,20 @@ DefaultContentLanguage: zh-cn
 hasCJKLanguage: true
 
 languages:
-    en:
-        languageName: English
-        title: Example Site
-        weight: 1
-        params:
-            sidebar:
-                subtitle: Example description
     zh-cn:
         languageName: 简体中文
         title: 演示站点
-        weight: 2
+        weight: 1
         params:
             sidebar:
                 subtitle: 演示说明
-
-    zh-tw:
-        languageName: 正體中文
-        title: 演示站點
+    en:
+        languageName: English
+        title: Example Site
         weight: 2
         params:
             sidebar:
-                subtitle: 演示說明
-
-    ja:
-        languageName: 日本語
-        title: サンプルサイト
-        weight: 2
-        params:
-            sidebar:
-                subtitle: サンプル説明
-    ar:
-        languageName: عربي
-        languagedirection: rtl
-        title: موقع تجريبي
-        weight: 3
-        params:
-            sidebar:
-                subtitle: وصف تجريبي
+                subtitle: Example description
 
 services:
     # Change it to your Disqus shortname before using
