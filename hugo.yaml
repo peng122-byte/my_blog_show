@@ -19,14 +19,14 @@ languages:
         weight: 1
         params:
             sidebar:
-                subtitle: "wechat: p870524302"
+                subtitle: "870524302@qq.com"
     en:
         languageName: English
         title: Kun's Music Box
         weight: 2
         params:
             sidebar:
-                subtitle: "wechat: p870524302"
+                subtitle: "870524302@qq.com"
 
 services:
     # Change it to your Disqus shortname before using
@@ -209,15 +209,9 @@ menu:
     social:
         - identifier: github
           name: GitHub
-          url: https://github.com/CaiJimmy/hugo-theme-stack
+          url: https://github.com/peng122-byte
           params:
               icon: brand-github
-
-        - identifier: twitter
-          name: Twitter
-          url: https://twitter.com
-          params:
-              icon: brand-twitter
 
 related:
     includeNewer: true
