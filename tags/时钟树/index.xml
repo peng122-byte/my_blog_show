@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>时钟树 on 鲲的琴盒</title>
+        <link>https://kun123.xyz/tags/%E6%97%B6%E9%92%9F%E6%A0%91/</link>
+        <description>Recent content in 时钟树 on 鲲的琴盒</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Kun</copyright>
+        <lastBuildDate>Fri, 27 Feb 2026 21:00:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/tags/%E6%97%B6%E9%92%9F%E6%A0%91/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>STM32 时钟树完全学习指南</title>
+        <link>https://kun123.xyz/p/stm32-%E6%97%B6%E9%92%9F%E6%A0%91%E5%AE%8C%E5%85%A8%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/</link>
+        <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/p/stm32-%E6%97%B6%E9%92%9F%E6%A0%91%E5%AE%8C%E5%85%A8%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/</guid>
+        <description>&lt;h2 id=&#34;简介&#34;&gt;简介
+&lt;/h2&gt;&lt;p&gt;这是一份 STM32 时钟树完全学习指南。&lt;/p&gt;
+&lt;p&gt;时钟系统是 STM32 的核心，理解时钟树对于嵌入式开发至关重要。这份指南将帮助你深入理解 STM32 的时钟配置。&lt;/p&gt;
+&lt;h2 id=&#34;内容概览&#34;&gt;内容概览
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;时钟源介绍（HSI、HSE、LSI、LSE）&lt;/li&gt;
+&lt;li&gt;PLL 配置详解&lt;/li&gt;
+&lt;li&gt;系统时钟选择&lt;/li&gt;
+&lt;li&gt;总线时钟分频&lt;/li&gt;
+&lt;li&gt;外设时钟使能&lt;/li&gt;
+&lt;li&gt;实战配置案例&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;查看完整教程&#34;&gt;查看完整教程
+&lt;/h2&gt;&lt;p&gt;👉 &lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/STM32_Clock_Tree_Guide.html&#34; &gt;点击这里查看完整教程&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

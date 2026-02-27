@@ -7,7 +7,50 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>Kun</copyright>
-        <lastBuildDate>Fri, 27 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://kun123.xyz/en/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 27 Feb 2026 21:00:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/en/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>STM32 Clock Tree Complete Guide</title>
+        <link>https://kun123.xyz/en/p/stm32-clock-tree-complete-guide/</link>
+        <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/p/stm32-clock-tree-complete-guide/</guid>
+        <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;This is a complete guide to the STM32 clock tree.&lt;/p&gt;
+&lt;p&gt;The clock system is the core of STM32. Understanding the clock tree is crucial for embedded development. This guide will help you deeply understand STM32 clock configuration.&lt;/p&gt;
+&lt;h2 id=&#34;contents&#34;&gt;Contents
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Clock Sources (HSI, HSE, LSI, LSE)&lt;/li&gt;
+&lt;li&gt;PLL Configuration Details&lt;/li&gt;
+&lt;li&gt;System Clock Selection&lt;/li&gt;
+&lt;li&gt;Bus Clock Prescalers&lt;/li&gt;
+&lt;li&gt;Peripheral Clock Enable&lt;/li&gt;
+&lt;li&gt;Practical Configuration Examples&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;view-full-tutorial&#34;&gt;View Full Tutorial
+&lt;/h2&gt;&lt;p&gt;👉 &lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/STM32_Clock_Tree_Guide.html&#34; &gt;Click here to view the full tutorial&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>CH32V30x Guide - From 8051 to RISC-V</title>
+        <link>https://kun123.xyz/en/p/ch32v30x-guide-from-8051-to-risc-v/</link>
+        <pubDate>Fri, 27 Feb 2026 20:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/p/ch32v30x-guide-from-8051-to-risc-v/</guid>
+        <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction
+&lt;/h2&gt;&lt;p&gt;This is a CH32V30x RISC-V MCU learning guide designed for 8051 developers.&lt;/p&gt;
+&lt;p&gt;If you have experience with 8051 MCU development and want to transition to RISC-V architecture, this guide will help you quickly get started with the CH32V30x series.&lt;/p&gt;
+&lt;h2 id=&#34;contents&#34;&gt;Contents
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;RISC-V Architecture Overview&lt;/li&gt;
+&lt;li&gt;CH32V30x Series Introduction&lt;/li&gt;
+&lt;li&gt;Migration Guide from 8051 to RISC-V&lt;/li&gt;
+&lt;li&gt;Development Environment Setup&lt;/li&gt;
+&lt;li&gt;Practical Examples&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;view-full-tutorial&#34;&gt;View Full Tutorial
+&lt;/h2&gt;&lt;p&gt;👉 &lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/CH32V30x%e5%ad%a6%e4%b9%a0%e6%8c%87%e5%8d%97_%e4%bb%8e8051%e5%88%b0RISCV.html&#34; &gt;Click here to view the full tutorial&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Digital Circuit Quick Start Guide</title>
         <link>https://kun123.xyz/en/p/digital-circuit-quick-start-guide/</link>
         <pubDate>Fri, 27 Feb 2026 00:00:00 +0000</pubDate>

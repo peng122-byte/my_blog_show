@@ -7,7 +7,55 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>Kun</copyright>
-        <lastBuildDate>Fri, 27 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://kun123.xyz/en/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 27 Feb 2026 21:00:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/en/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Clock Tree</title>
+        <link>https://kun123.xyz/en/tags/clock-tree/</link>
+        <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/tags/clock-tree/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Embedded</title>
+        <link>https://kun123.xyz/en/tags/embedded/</link>
+        <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/tags/embedded/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>MCU</title>
+        <link>https://kun123.xyz/en/tags/mcu/</link>
+        <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/tags/mcu/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>STM32</title>
+        <link>https://kun123.xyz/en/tags/stm32/</link>
+        <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/tags/stm32/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>CH32V30x</title>
+        <link>https://kun123.xyz/en/tags/ch32v30x/</link>
+        <pubDate>Fri, 27 Feb 2026 20:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/tags/ch32v30x/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>RISC-V</title>
+        <link>https://kun123.xyz/en/tags/risc-v/</link>
+        <pubDate>Fri, 27 Feb 2026 20:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/tags/risc-v/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>51 MCU</title>
         <link>https://kun123.xyz/en/tags/51-mcu/</link>
         <pubDate>Fri, 27 Feb 2026 00:00:00 +0000</pubDate>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>CH32V30x on 鲲的琴盒</title>
+        <link>https://kun123.xyz/tags/ch32v30x/</link>
+        <description>Recent content in CH32V30x on 鲲的琴盒</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Kun</copyright>
+        <lastBuildDate>Fri, 27 Feb 2026 20:00:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/tags/ch32v30x/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>CH32V30x学习指南 - 从8051到RISC-V</title>
+        <link>https://kun123.xyz/p/ch32v30x%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E4%BB%8E8051%E5%88%B0risc-v/</link>
+        <pubDate>Fri, 27 Feb 2026 20:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/p/ch32v30x%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E4%BB%8E8051%E5%88%B0risc-v/</guid>
+        <description>&lt;h2 id=&#34;简介&#34;&gt;简介
+&lt;/h2&gt;&lt;p&gt;这是一份面向 8051 开发者的 CH32V30x RISC-V 单片机学习指南。&lt;/p&gt;
+&lt;p&gt;如果你有 8051 单片机开发经验，想要转向 RISC-V 架构，这份指南将帮助你快速上手 CH32V30x 系列单片机。&lt;/p&gt;
+&lt;h2 id=&#34;内容概览&#34;&gt;内容概览
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;RISC-V 架构简介&lt;/li&gt;
+&lt;li&gt;CH32V30x 系列介绍&lt;/li&gt;
+&lt;li&gt;从 8051 到 RISC-V 的迁移指南&lt;/li&gt;
+&lt;li&gt;开发环境搭建&lt;/li&gt;
+&lt;li&gt;实战案例&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;查看完整教程&#34;&gt;查看完整教程
+&lt;/h2&gt;&lt;p&gt;👉 &lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/CH32V30x%e5%ad%a6%e4%b9%a0%e6%8c%87%e5%8d%97_%e4%bb%8e8051%e5%88%b0RISCV.html&#34; &gt;点击这里查看完整教程&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH32V30x学习指南 - 从8051到RISC-V</title>
+    <!-- Mermaid.js for diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        nav h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            font-size: 1.1rem;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin-bottom: 5px;
+        }
+
+        nav a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        nav .chapter {
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 15px;
+        }
+
+        /* 主内容 */
+        main {
+            margin-left: 280px;
+            padding: 40px 60px;
+            max-width: 1000px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--text);
+            margin: 50px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin: 30px 0 15px;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* 卡片 */
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 提示框 */
+        .tip {
+            background: #ecfdf5;
+            border-left: 4px solid var(--secondary);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .warning {
+            background: #fffbeb;
+            border-left: 4px solid var(--warning);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-title {
+            font-weight: 600;
+            color: var(--warning);
+            margin-bottom: 5px;
+        }
+
+        .danger {
+            background: #fef2f2;
+            border-left: 4px solid var(--danger);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .danger-title {
+            font-weight: 600;
+            color: var(--danger);
+            margin-bottom: 5px;
+        }
+
+        /* 代码块 */
+        pre {
+            background: var(--code-bg);
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--primary-dark);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .code-comment { color: #6b7280; }
+        .code-keyword { color: #c084fc; }
+        .code-function { color: #60a5fa; }
+        .code-string { color: #34d399; }
+        .code-number { color: #fbbf24; }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        tr:hover {
+            background: #e0f2fe;
+        }
+
+        /* 对比视图 */
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .compare-item {
+            background: var(--card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .compare-header {
+            padding: 10px 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .compare-item:first-child .compare-header {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        .compare-item:last-child .compare-header {
+            background: #dcfce7;
+            color: var(--secondary);
+        }
+
+        .compare-item pre {
+            margin: 0;
+            border-radius: 0;
+        }
+
+        /* 图表容器 */
+        .diagram-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 25px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* SVG图样式 */
+        .svg-diagram {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .svg-diagram text {
+            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif;
+        }
+
+        /* 进度条 */
+        .progress-container {
+            display: flex;
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .progress-step.active {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .progress-step .step-num {
+            width: 30px;
+            height: 30px;
+            background: var(--border);
+            color: var(--text-light);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .progress-step.active .step-num {
+            background: var(--primary);
+            color: white;
+        }
+
+        .progress-step .step-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* 列表 */
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* 练习题 */
+        .exercise {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .exercise-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* API参考 */
+        .api-ref {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .api-header {
+            background: #f1f5f9;
+            padding: 12px 15px;
+            font-family: monospace;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .api-body {
+            padding: 15px;
+        }
+
+        .api-param {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .api-param-name {
+            font-family: monospace;
+            color: var(--primary);
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            nav {
+                display: none;
+            }
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .compare {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>📚 学习目录</h2>
+        <ul>
+            <li><a href="#intro" class="chapter">第一章 概述</a></li>
+            <li><a href="#mindset">思维转变</a></li>
+            <li><a href="#mapping">概念映射表</a></li>
+            <li><a href="#architecture">架构对比</a></li>
+
+            <li><a href="#chapter2" class="chapter">第二章 时钟系统</a></li>
+            <li><a href="#rcc-intro">RCC基础</a></li>
+            <li><a href="#clock-tree">时钟树</a></li>
+            <li><a href="#rcc-api">RCC API</a></li>
+
+            <li><a href="#chapter3" class="chapter">第三章 GPIO</a></li>
+            <li><a href="#gpio-modes">GPIO模式</a></li>
+            <li><a href="#gpio-init">初始化流程</a></li>
+            <li><a href="#gpio-api">GPIO API</a></li>
+            <li><a href="#gpio-exercise">LED实战</a></li>
+
+            <li><a href="#chapter4" class="chapter">第四章 定时器</a></li>
+            <li><a href="#tim-types">定时器类型</a></li>
+            <li><a href="#tim-basic">基本定时</a></li>
+            <li><a href="#tim-nvic">NVIC中断</a></li>
+            <li><a href="#tim-exercise">定时器实战</a></li>
+
+            <li><a href="#chapter5" class="chapter">第五章 串口</a></li>
+            <li><a href="#usart-init">USART配置</a></li>
+            <li><a href="#usart-printf">printf重定向</a></li>
+            <li><a href="#usart-rx">接收处理</a></li>
+
+            <li><a href="#chapter6" class="chapter">第六章 综合项目</a></li>
+            <li><a href="#scheduler">任务调度器移植</a></li>
+            <li><a href="#template">工程模板</a></li>
+
+            <li><a href="#appendix" class="chapter">附录</a></li>
+            <li><a href="#api-quick">API速查</a></li>
+            <li><a href="#troubleshooting">常见问题</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>CH32V30x 学习指南</h1>
+        <p class="subtitle">从8051到RISC-V的平滑过渡 · 基于你的工程包定制</p>
+
+        <!-- 第一章 -->
+        <h2 id="intro">第一章 概述与思维转变</h2>
+
+        <div class="card">
+            <div class="card-title">🎯 本指南特点</div>
+            <ul>
+                <li>基于你已有的 <strong>STC15F2K60S2 (8051)</strong> 经验</li>
+                <li>针对你的 <strong>CH32V30x v2.18</strong> 工程包定制</li>
+                <li>代码可直接在你的工程中运行</li>
+                <li>循序渐进，每章都有实战练习</li>
+            </ul>
+        </div>
+
+        <h3 id="mindset">核心思维转变</h3>
+
+        <div class="warning">
+            <div class="warning-title">⚠️ 最大的区别</div>
+            <p><strong>8051</strong>：直接操作寄存器，上电就能用</p>
+            <p><strong>CH32</strong>：库函数封装，必须先开时钟！</p>
+        </div>
+
+        <!-- 思维转变流程图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">开发思维对比</div>
+            <div class="mermaid">
+flowchart LR
+    subgraph A["8051 开发流程"]
+        direction TB
+        A1["💡 想法"] --> A2["📝 写寄存器"]
+        A2 --> A3["✅ 完成"]
+    end
+
+    subgraph B["CH32 开发流程"]
+        direction TB
+        B1["💡 想法"] --> B2["🔓 开时钟 RCC"]
+        B2 --> B3["📋 配置结构体"]
+        B3 --> B4["⚙️ 调用Init函数"]
+        B4 --> B5["✅ 完成"]
+    end
+
+    A --> |"思维升级"| B
+
+    style A1 fill:#fef3c7
+    style A2 fill:#fef3c7
+    style A3 fill:#d1fae5
+    style B1 fill:#dbeafe
+    style B2 fill:#fee2e2
+    style B3 fill:#dbeafe
+    style B4 fill:#dbeafe
+    style B5 fill:#d1fae5
+            </div>
+        </div>
+
+        <div class="compare">
+            <div class="compare-item">
+                <div class="compare-header">8051 思维</div>
+<pre>
+<span class="code-comment">// 点亮LED，一行搞定</span>
+P1 = <span class="code-number">0xFE</span>;
+</pre>
+            </div>
+            <div class="compare-item">
+                <div class="compare-header">CH32 思维</div>
+<pre>
+<span class="code-comment">// 点亮LED，四步流程</span>
+<span class="code-number">1.</span> 开时钟 (RCC)
+<span class="code-number">2.</span> 配置结构体
+<span class="code-number">3.</span> 调用Init函数
+<span class="code-number">4.</span> 操作GPIO
+</pre>
+            </div>
+        </div>
+
+        <h3 id="mapping">概念映射表</h3>
+
+        <table>
+            <tr>
+                <th>功能</th>
+                <th>8051 (STC15)</th>
+                <th>CH32V30x</th>
+            </tr>
+            <tr>
+                <td>GPIO输出</td>
+                <td><code>P0 = 0xFF</code></td>
+                <td><code>GPIO_Write(GPIOA, 0xFF)</code></td>
+            </tr>
+            <tr>
+                <td>单引脚置高</td>
+                <td><code>P1_0 = 1</code></td>
+                <td><code>GPIO_SetBits(GPIOA, GPIO_Pin_0)</code></td>
+            </tr>
+            <tr>
+                <td>单引脚置低</td>
+                <td><code>P1_0 = 0</code></td>
+                <td><code>GPIO_ResetBits(GPIOA, GPIO_Pin_0)</code></td>
+            </tr>
+            <tr>
+                <td>读取引脚</td>
+                <td><code>val = P1_0</code></td>
+                <td><code>GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)</code></td>
+            </tr>
+            <tr>
+                <td>中断函数</td>
+                <td><code>void T0_ISR() interrupt 1</code></td>
+                <td><code>void TIM2_IRQHandler(void)</code></td>
+            </tr>
+            <tr>
+                <td>定时器配置</td>
+                <td><code>TMOD = 0x01; TH0=...; TL0=...</code></td>
+                <td><code>TIM_TimeBaseInit(TIM2, &InitStruct)</code></td>
+            </tr>
+            <tr>
+                <td>启动定时器</td>
+                <td><code>TR0 = 1</code></td>
+                <td><code>TIM_Cmd(TIM2, ENABLE)</code></td>
+            </tr>
+            <tr>
+                <td>中断使能</td>
+                <td><code>ET0 = 1; EA = 1</code></td>
+                <td><code>NVIC_Init(&NVIC_InitStruct)</code></td>
+            </tr>
+            <tr>
+                <td>时钟控制</td>
+                <td><strong>无需操作</strong></td>
+                <td><code>RCC_APBxPeriphClockCmd(...)</code></td>
+            </tr>
+        </table>
+
+        <h3 id="architecture">架构对比</h3>
+
+        <!-- 8051架构图 SVG -->
+        <div class="diagram-container">
+            <div class="diagram-title">8051 架构（简单直接）</div>
+            <svg class="svg-diagram" viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+                <!-- 背景 -->
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fef3c7;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#fde68a;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#dbeafe;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#93c5fd;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+                    </filter>
+                </defs>
+
+                <!-- 标题背景 -->
+                <rect x="10" y="10" width="680" height="260" rx="15" fill="#fffbeb" stroke="#fbbf24" stroke-width="2"/>
+
+                <!-- CPU -->
+                <rect x="280" y="40" width="140" height="60" rx="10" fill="url(#grad1)" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+                <text x="350" y="75" text-anchor="middle" font-size="16" font-weight="bold" fill="#92400e">8051 CPU</text>
+
+                <!-- 箭头 -->
+                <path d="M350 100 L350 130" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+                    </marker>
+                </defs>
+
+                <!-- 总线 -->
+                <rect x="50" y="140" width="600" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                <text x="350" y="165" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">统一总线 - 所有外设共享</text>
+
+                <!-- 外设 -->
+                <g transform="translate(50, 200)">
+                    <rect x="0" y="0" width="100" height="50" rx="8" fill="url(#grad2)" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+                    <text x="50" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">P0</text>
+                </g>
+                <g transform="translate(170, 200)">
+                    <rect x="0" y="0" width="100" height="50" rx="8" fill="url(#grad2)" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+                    <text x="50" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">P1</text>
+                </g>
+                <g transform="translate(290, 200)">
+                    <rect x="0" y="0" width="100" height="50" rx="8" fill="url(#grad2)" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+                    <text x="50" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">P2</text>
+                </g>
+                <g transform="translate(410, 200)">
+                    <rect x="0" y="0" width="100" height="50" rx="8" fill="url(#grad2)" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+                    <text x="50" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">P3</text>
+                </g>
+                <g transform="translate(530, 200)">
+                    <rect x="0" y="0" width="100" height="50" rx="8" fill="url(#grad2)" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+                    <text x="50" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">定时器</text>
+                </g>
+
+                <!-- 连接线 -->
+                <line x1="100" y1="180" x2="100" y2="200" stroke="#3b82f6" stroke-width="2"/>
+                <line x1="220" y1="180" x2="220" y2="200" stroke="#3b82f6" stroke-width="2"/>
+                <line x1="340" y1="180" x2="340" y2="200" stroke="#3b82f6" stroke-width="2"/>
+                <line x1="460" y1="180" x2="460" y2="200" stroke="#3b82f6" stroke-width="2"/>
+                <line x1="580" y1="180" x2="580" y2="200" stroke="#3b82f6" stroke-width="2"/>
+            </svg>
+            <p style="color: #92400e; margin-top: 15px; font-size: 0.9rem;">✅ 简单直接：上电即用，无需时钟配置</p>
+        </div>
+
+        <!-- CH32架构图 SVG -->
+        <div class="diagram-container">
+            <div class="diagram-title">CH32V30x 架构（模块化设计）</div>
+            <svg class="svg-diagram" viewBox="0 0 750 450" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="cpuGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#c7d2fe;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#a5b4fc;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="rccGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fecaca;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#fca5a5;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="nvicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#d9f99d;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#bef264;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="apb2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#99f6e4;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#5eead4;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="apb1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fde68a;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#fcd34d;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+
+                <!-- 背景 -->
+                <rect x="10" y="10" width="730" height="430" rx="15" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+
+                <!-- CPU -->
+                <rect x="80" y="40" width="160" height="70" rx="12" fill="url(#cpuGrad)" stroke="#6366f1" stroke-width="2" filter="url(#shadow)"/>
+                <text x="160" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#3730a3">RISC-V CPU</text>
+                <text x="160" y="90" text-anchor="middle" font-size="12" fill="#4f46e5">96MHz 高性能</text>
+
+                <!-- RCC -->
+                <rect x="300" y="40" width="160" height="70" rx="12" fill="url(#rccGrad)" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+                <text x="380" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#991b1b">🔑 RCC</text>
+                <text x="380" y="85" text-anchor="middle" font-size="12" fill="#b91c1c">时钟控制器</text>
+                <text x="380" y="100" text-anchor="middle" font-size="10" fill="#dc2626">(必须先开!)</text>
+
+                <!-- NVIC -->
+                <rect x="520" y="40" width="160" height="70" rx="12" fill="url(#nvicGrad)" stroke="#84cc16" stroke-width="2" filter="url(#shadow)"/>
+                <text x="600" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#365314">NVIC</text>
+                <text x="600" y="90" text-anchor="middle" font-size="12" fill="#4d7c0f">中断控制器</text>
+
+                <!-- 连接线 CPU-RCC -->
+                <path d="M240 75 L300 75" stroke="#6366f1" stroke-width="2" stroke-dasharray="5,3"/>
+                <path d="M460 75 L520 75" stroke="#84cc16" stroke-width="2" stroke-dasharray="5,3"/>
+
+                <!-- SYSCLK -->
+                <rect x="280" y="140" width="200" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                <text x="380" y="165" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400e">SYSCLK (96MHz)</text>
+
+                <!-- 时钟分配箭头 -->
+                <path d="M380 110 L380 140" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <path d="M380 180 L380 210" stroke="#f59e0b" stroke-width="2"/>
+                <path d="M380 210 L200 210 L200 240" stroke="#14b8a6" stroke-width="2"/>
+                <path d="M380 210 L560 210 L560 240" stroke="#eab308" stroke-width="2"/>
+
+                <!-- APB2 区域 -->
+                <rect x="40" y="240" width="320" height="190" rx="12" fill="#ecfdf5" stroke="#14b8a6" stroke-width="2"/>
+                <text x="200" y="265" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f766e">APB2 总线 (96MHz) - 高速外设</text>
+
+                <!-- APB2 外设 -->
+                <rect x="60" y="285" width="90" height="40" rx="6" fill="url(#apb2Grad)" stroke="#14b8a6" stroke-width="1.5"/>
+                <text x="105" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#115e59">GPIOA~E</text>
+
+                <rect x="160" y="285" width="90" height="40" rx="6" fill="url(#apb2Grad)" stroke="#14b8a6" stroke-width="1.5"/>
+                <text x="205" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#115e59">USART1</text>
+
+                <rect x="260" y="285" width="90" height="40" rx="6" fill="url(#apb2Grad)" stroke="#14b8a6" stroke-width="1.5"/>
+                <text x="305" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#115e59">SPI1</text>
+
+                <rect x="60" y="340" width="90" height="40" rx="6" fill="url(#apb2Grad)" stroke="#14b8a6" stroke-width="1.5"/>
+                <text x="105" y="365" text-anchor="middle" font-size="12" font-weight="bold" fill="#115e59">ADC1,2</text>
+
+                <rect x="160" y="340" width="90" height="40" rx="6" fill="url(#apb2Grad)" stroke="#14b8a6" stroke-width="1.5"/>
+                <text x="205" y="365" text-anchor="middle" font-size="12" font-weight="bold" fill="#115e59">TIM1,8</text>
+
+                <rect x="260" y="340" width="90" height="40" rx="6" fill="url(#apb2Grad)" stroke="#14b8a6" stroke-width="1.5"/>
+                <text x="305" y="365" text-anchor="middle" font-size="12" font-weight="bold" fill="#115e59">TIM9,10</text>
+
+                <!-- 开关图标 -->
+                <g transform="translate(60, 395)">
+                    <rect x="0" y="0" width="290" height="25" rx="4" fill="#d1fae5"/>
+                    <text x="145" y="17" text-anchor="middle" font-size="11" fill="#047857">🔌 每个外设都有独立时钟开关</text>
+                </g>
+
+                <!-- APB1 区域 -->
+                <rect x="390" y="240" width="320" height="190" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+                <text x="550" y="265" text-anchor="middle" font-size="14" font-weight="bold" fill="#a16207">APB1 总线 (48MHz) - 低速外设</text>
+
+                <!-- APB1 外设 -->
+                <rect x="410" y="285" width="90" height="40" rx="6" fill="url(#apb1Grad)" stroke="#eab308" stroke-width="1.5"/>
+                <text x="455" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#854d0e">TIM2~7</text>
+
+                <rect x="510" y="285" width="90" height="40" rx="6" fill="url(#apb1Grad)" stroke="#eab308" stroke-width="1.5"/>
+                <text x="555" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#854d0e">USART2~5</text>
+
+                <rect x="610" y="285" width="90" height="40" rx="6" fill="url(#apb1Grad)" stroke="#eab308" stroke-width="1.5"/>
+                <text x="655" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#854d0e">SPI2,3</text>
+
+                <rect x="410" y="340" width="90" height="40" rx="6" fill="url(#apb1Grad)" stroke="#eab308" stroke-width="1.5"/>
+                <text x="455" y="365" text-anchor="middle" font-size="12" font-weight="bold" fill="#854d0e">I2C1,2</text>
+
+                <rect x="510" y="340" width="90" height="40" rx="6" fill="url(#apb1Grad)" stroke="#eab308" stroke-width="1.5"/>
+                <text x="555" y="365" text-anchor="middle" font-size="12" font-weight="bold" fill="#854d0e">CAN1,2</text>
+
+                <rect x="610" y="340" width="90" height="40" rx="6" fill="url(#apb1Grad)" stroke="#eab308" stroke-width="1.5"/>
+                <text x="655" y="365" text-anchor="middle" font-size="12" font-weight="bold" fill="#854d0e">DAC</text>
+
+                <!-- 开关图标 -->
+                <g transform="translate(410, 395)">
+                    <rect x="0" y="0" width="290" height="25" rx="4" fill="#fef9c3"/>
+                    <text x="145" y="17" text-anchor="middle" font-size="11" fill="#a16207">🔌 每个外设都有独立时钟开关</text>
+                </g>
+            </svg>
+            <p style="color: #166534; margin-top: 15px; font-size: 0.9rem;">⚠️ 重要：使用任何外设前，必须先通过RCC开启对应的时钟！</p>
+        </div>
+
+        <!-- 第二章 -->
+        <h2 id="chapter2">第二章 时钟系统 (RCC)</h2>
+
+        <div class="danger">
+            <div class="danger-title">🚨 这是8051开发者最容易忽略的！</div>
+            <p>在CH32中，<strong>每个外设在使用前必须先开启时钟</strong>，否则外设不会工作。这是为了降低功耗设计的。</p>
+        </div>
+
+        <h3 id="rcc-intro">RCC 基础概念</h3>
+
+        <p><strong>RCC (Reset and Clock Control)</strong> 是时钟控制器，负责：</p>
+        <ul>
+            <li>系统时钟配置（HSI/HSE/PLL）</li>
+            <li>总线时钟分频（AHB/APB1/APB2）</li>
+            <li><strong>外设时钟门控</strong>（开启/关闭各外设时钟）</li>
+        </ul>
+
+        <h3 id="clock-tree">时钟树详解</h3>
+
+        <!-- 时钟树 Mermaid -->
+        <div class="diagram-container">
+            <div class="diagram-title">CH32V30x 时钟树</div>
+            <div class="mermaid">
+flowchart TB
+    subgraph Sources["时钟源"]
+        HSI["🔷 HSI<br/>内部8MHz"]
+        HSE["🔶 HSE<br/>外部晶振8MHz"]
+    end
+
+    subgraph PLL["锁相环倍频"]
+        PLLMUL["PLL倍频器<br/>×12"]
+    end
+
+    subgraph System["系统时钟"]
+        SYSCLK["⚡ SYSCLK<br/>96MHz"]
+    end
+
+    subgraph Buses["总线时钟"]
+        AHB["AHB<br/>96MHz"]
+        APB2["APB2 高速<br/>96MHz"]
+        APB1["APB1 低速<br/>48MHz"]
+    end
+
+    subgraph APB2_Periph["APB2 外设"]
+        GPIO["GPIOA~E"]
+        USART1["USART1"]
+        SPI1["SPI1"]
+        ADC["ADC1,2"]
+        TIM_H["TIM1,8,9,10"]
+    end
+
+    subgraph APB1_Periph["APB1 外设"]
+        TIM_L["TIM2~7"]
+        USART_L["USART2~5"]
+        SPI_L["SPI2,3"]
+        I2C["I2C1,2"]
+        CAN["CAN1,2"]
+    end
+
+    HSI --> PLLMUL
+    HSE --> PLLMUL
+    PLLMUL --> SYSCLK
+    SYSCLK --> AHB
+    AHB --> APB2
+    AHB --> APB1
+
+    APB2 --> GPIO
+    APB2 --> USART1
+    APB2 --> SPI1
+    APB2 --> ADC
+    APB2 --> TIM_H
+
+    APB1 --> TIM_L
+    APB1 --> USART_L
+    APB1 --> SPI_L
+    APB1 --> I2C
+    APB1 --> CAN
+
+    style HSE fill:#fef3c7,stroke:#f59e0b
+    style PLLMUL fill:#dbeafe,stroke:#3b82f6
+    style SYSCLK fill:#fee2e2,stroke:#ef4444
+    style APB2 fill:#d1fae5,stroke:#10b981
+    style APB1 fill:#fef9c3,stroke:#eab308
+            </div>
+        </div>
+
+        <h3 id="rcc-api">RCC 常用API</h3>
+
+        <div class="api-ref">
+            <div class="api-header">RCC_APB2PeriphClockCmd(uint32_t Periph, FunctionalState NewState)</div>
+            <div class="api-body">
+                <p>开启/关闭 APB2 总线上的外设时钟</p>
+                <div class="api-param">
+                    <span class="api-param-name">Periph</span>
+                    <span>外设宏，如 <code>RCC_APB2Periph_GPIOC</code>、<code>RCC_APB2Periph_USART1</code></span>
+                </div>
+                <div class="api-param">
+                    <span class="api-param-name">NewState</span>
+                    <span><code>ENABLE</code> 或 <code>DISABLE</code></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-ref">
+            <div class="api-header">RCC_APB1PeriphClockCmd(uint32_t Periph, FunctionalState NewState)</div>
+            <div class="api-body">
+                <p>开启/关闭 APB1 总线上的外设时钟</p>
+                <div class="api-param">
+                    <span class="api-param-name">Periph</span>
+                    <span>外设宏，如 <code>RCC_APB1Periph_TIM3</code>、<code>RCC_APB1Periph_USART2</code></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <div class="tip-title">💡 记忆技巧</div>
+            <p><strong>APB2</strong> = 高速 = GPIO全家 + USART1 + SPI1 + ADC + 高级定时器(TIM1,8)</p>
+            <p><strong>APB1</strong> = 低速 = TIM2~7 + USART2~5 + SPI2,3 + I2C</p>
+        </div>
+
+        <h4>常用外设时钟宏</h4>
+
+        <table>
+            <tr>
+                <th>APB2 外设 (高速)</th>
+                <th>APB1 外设 (低速)</th>
+            </tr>
+            <tr>
+                <td><code>RCC_APB2Periph_GPIOA</code></td>
+                <td><code>RCC_APB1Periph_TIM2</code></td>
+            </tr>
+            <tr>
+                <td><code>RCC_APB2Periph_GPIOB</code></td>
+                <td><code>RCC_APB1Periph_TIM3</code></td>
+            </tr>
+            <tr>
+                <td><code>RCC_APB2Periph_GPIOC</code></td>
+                <td><code>RCC_APB1Periph_TIM4</code></td>
+            </tr>
+            <tr>
+                <td><code>RCC_APB2Periph_GPIOD</code></td>
+                <td><code>RCC_APB1Periph_USART2</code></td>
+            </tr>
+            <tr>
+                <td><code>RCC_APB2Periph_USART1</code></td>
+                <td><code>RCC_APB1Periph_I2C1</code></td>
+            </tr>
+            <tr>
+                <td><code>RCC_APB2Periph_SPI1</code></td>
+                <td><code>RCC_APB1Periph_SPI2</code></td>
+            </tr>
+            <tr>
+                <td><code>RCC_APB2Periph_ADC1</code></td>
+                <td><code>RCC_APB1Periph_CAN1</code></td>
+            </tr>
+        </table>
+
+        <!-- 第三章 -->
+        <h2 id="chapter3">第三章 GPIO 详解</h2>
+
+        <h3 id="gpio-modes">GPIO 模式详解</h3>
+
+        <table>
+            <tr>
+                <th>模式</th>
+                <th>宏定义</th>
+                <th>用途</th>
+                <th>8051对应</th>
+            </tr>
+            <tr>
+                <td>推挽输出</td>
+                <td><code>GPIO_Mode_Out_PP</code></td>
+                <td>LED、蜂鸣器等</td>
+                <td>P0口外接上拉</td>
+            </tr>
+            <tr>
+                <td>开漏输出</td>
+                <td><code>GPIO_Mode_Out_OD</code></td>
+                <td>I2C、电平转换</td>
+                <td>P0口默认</td>
+            </tr>
+            <tr>
+                <td>浮空输入</td>
+                <td><code>GPIO_Mode_IN_FLOATING</code></td>
+                <td>外部有确定电平</td>
+                <td>P1~P3口</td>
+            </tr>
+            <tr>
+                <td>上拉输入</td>
+                <td><code>GPIO_Mode_IPU</code></td>
+                <td>按键（低电平有效）</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>下拉输入</td>
+                <td><code>GPIO_Mode_IPD</code></td>
+                <td>按键（高电平有效）</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>模拟输入</td>
+                <td><code>GPIO_Mode_AIN</code></td>
+                <td>ADC采集</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>复用推挽</td>
+                <td><code>GPIO_Mode_AF_PP</code></td>
+                <td>USART_TX、SPI等</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>复用开漏</td>
+                <td><code>GPIO_Mode_AF_OD</code></td>
+                <td>I2C_SDA/SCL</td>
+                <td>-</td>
+            </tr>
+        </table>
+
+        <!-- GPIO模式图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">GPIO 输出模式对比</div>
+            <svg class="svg-diagram" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- 推挽输出 -->
+                <g transform="translate(50, 30)">
+                    <text x="120" y="0" text-anchor="middle" font-size="16" font-weight="bold" fill="#2563eb">推挽输出 (Out_PP)</text>
+
+                    <!-- VDD -->
+                    <line x1="120" y1="30" x2="120" y2="50" stroke="#ef4444" stroke-width="2"/>
+                    <text x="140" y="45" font-size="12" fill="#ef4444">VDD</text>
+
+                    <!-- P-MOS -->
+                    <rect x="100" y="50" width="40" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="2" rx="4"/>
+                    <text x="120" y="70" text-anchor="middle" font-size="10" fill="#991b1b">P-MOS</text>
+
+                    <!-- 输出点 -->
+                    <line x1="120" y1="80" x2="120" y2="100" stroke="#1e293b" stroke-width="2"/>
+                    <circle cx="120" cy="100" r="5" fill="#3b82f6"/>
+                    <line x1="125" y1="100" x2="180" y2="100" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="190" y="105" font-size="12" font-weight="bold" fill="#3b82f6">输出</text>
+
+                    <!-- N-MOS -->
+                    <line x1="120" y1="100" x2="120" y2="120" stroke="#1e293b" stroke-width="2"/>
+                    <rect x="100" y="120" width="40" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="4"/>
+                    <text x="120" y="140" text-anchor="middle" font-size="10" fill="#1e40af">N-MOS</text>
+
+                    <!-- GND -->
+                    <line x1="120" y1="150" x2="120" y2="170" stroke="#1e293b" stroke-width="2"/>
+                    <text x="140" y="165" font-size="12" fill="#64748b">GND</text>
+
+                    <!-- 说明 -->
+                    <rect x="30" y="190" width="180" height="60" fill="#eff6ff" stroke="#3b82f6" rx="6"/>
+                    <text x="120" y="210" text-anchor="middle" font-size="11" fill="#1e40af">✅ 可输出高/低电平</text>
+                    <text x="120" y="228" text-anchor="middle" font-size="11" fill="#1e40af">✅ 驱动能力强</text>
+                    <text x="120" y="246" text-anchor="middle" font-size="11" fill="#1e40af">📍 用于LED、蜂鸣器</text>
+                </g>
+
+                <!-- 开漏输出 -->
+                <g transform="translate(350, 30)">
+                    <text x="120" y="0" text-anchor="middle" font-size="16" font-weight="bold" fill="#f59e0b">开漏输出 (Out_OD)</text>
+
+                    <!-- 外部上拉 -->
+                    <line x1="120" y1="30" x2="120" y2="50" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="140" y="45" font-size="12" fill="#ef4444">外部上拉</text>
+
+                    <!-- 断开的P-MOS -->
+                    <rect x="100" y="50" width="40" height="30" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="4" stroke-dasharray="4"/>
+                    <text x="120" y="70" text-anchor="middle" font-size="10" fill="#94a3b8">无</text>
+
+                    <!-- 输出点 -->
+                    <line x1="120" y1="80" x2="120" y2="100" stroke="#1e293b" stroke-width="2"/>
+                    <circle cx="120" cy="100" r="5" fill="#f59e0b"/>
+                    <line x1="125" y1="100" x2="180" y2="100" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="190" y="105" font-size="12" font-weight="bold" fill="#f59e0b">输出</text>
+
+                    <!-- N-MOS -->
+                    <line x1="120" y1="100" x2="120" y2="120" stroke="#1e293b" stroke-width="2"/>
+                    <rect x="100" y="120" width="40" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="4"/>
+                    <text x="120" y="140" text-anchor="middle" font-size="10" fill="#92400e">N-MOS</text>
+
+                    <!-- GND -->
+                    <line x1="120" y1="150" x2="120" y2="170" stroke="#1e293b" stroke-width="2"/>
+                    <text x="140" y="165" font-size="12" fill="#64748b">GND</text>
+
+                    <!-- 说明 -->
+                    <rect x="30" y="190" width="180" height="60" fill="#fefce8" stroke="#f59e0b" rx="6"/>
+                    <text x="120" y="210" text-anchor="middle" font-size="11" fill="#92400e">⚠️ 只能拉低，需外部上拉</text>
+                    <text x="120" y="228" text-anchor="middle" font-size="11" fill="#92400e">✅ 支持线与逻辑</text>
+                    <text x="120" y="246" text-anchor="middle" font-size="11" fill="#92400e">📍 用于I2C、电平转换</text>
+                </g>
+            </svg>
+        </div>
+
+        <h3 id="gpio-init">GPIO 初始化流程</h3>
+
+        <!-- GPIO初始化流程图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">GPIO 初始化四步流程</div>
+            <div class="mermaid">
+flowchart LR
+    A["1️⃣ 开时钟<br/><code>RCC_APB2PeriphClockCmd</code>"] --> B["2️⃣ 定义结构体<br/><code>GPIO_InitTypeDef</code>"]
+    B --> C["3️⃣ 填充成员<br/>Pin/Mode/Speed"]
+    C --> D["4️⃣ 调用Init<br/><code>GPIO_Init()</code>"]
+
+    style A fill:#fee2e2,stroke:#ef4444,stroke-width:2px
+    style B fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
+    style C fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    style D fill:#fef3c7,stroke:#f59e0b,stroke-width:2px
+            </div>
+        </div>
+
+<pre>
+<span class="code-comment">// GPIO初始化完整模板</span>
+<span class="code-keyword">void</span> <span class="code-function">LED_Init</span>(<span class="code-keyword">void</span>)
+{
+    <span class="code-comment">// 第1步：开启GPIOC时钟 【必须！8051无此步骤】</span>
+    <span class="code-function">RCC_APB2PeriphClockCmd</span>(RCC_APB2Periph_GPIOC, ENABLE);
+
+    <span class="code-comment">// 第2步：定义GPIO初始化结构体</span>
+    GPIO_InitTypeDef GPIO_InitStructure = {<span class="code-number">0</span>};
+
+    <span class="code-comment">// 第3步：填充结构体成员</span>
+    GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_2;          <span class="code-comment">// PC2引脚</span>
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;    <span class="code-comment">// 推挽输出</span>
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;    <span class="code-comment">// 翻转速度</span>
+
+    <span class="code-comment">// 第4步：调用初始化函数</span>
+    <span class="code-function">GPIO_Init</span>(GPIOC, &GPIO_InitStructure);
+}
+</pre>
+
+        <h3 id="gpio-api">GPIO 常用API</h3>
+
+        <div class="api-ref">
+            <div class="api-header">GPIO_SetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)</div>
+            <div class="api-body">
+                <p>将指定引脚置高 (输出1)</p>
+<pre>
+<span class="code-comment">// 等价于 8051 的 P1_0 = 1;</span>
+<span class="code-function">GPIO_SetBits</span>(GPIOC, GPIO_Pin_2);
+</pre>
+            </div>
+        </div>
+
+        <div class="api-ref">
+            <div class="api-header">GPIO_ResetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)</div>
+            <div class="api-body">
+                <p>将指定引脚置低 (输出0)</p>
+<pre>
+<span class="code-comment">// 等价于 8051 的 P1_0 = 0;</span>
+<span class="code-function">GPIO_ResetBits</span>(GPIOC, GPIO_Pin_2);
+</pre>
+            </div>
+        </div>
+
+        <div class="api-ref">
+            <div class="api-header">GPIO_ReadInputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)</div>
+            <div class="api-body">
+                <p>读取输入引脚电平，返回 Bit_SET(1) 或 Bit_RESET(0)</p>
+<pre>
+<span class="code-comment">// 等价于 8051 的 if(P1_0 == 0)</span>
+<span class="code-keyword">if</span>(<span class="code-function">GPIO_ReadInputDataBit</span>(GPIOA, GPIO_Pin_0) == Bit_RESET) {
+    <span class="code-comment">// 按键按下</span>
+}
+</pre>
+            </div>
+        </div>
+
+        <h3 id="gpio-exercise">实战练习：LED闪烁</h3>
+
+        <div class="exercise">
+            <div class="exercise-title">📝 练习1：让PC2引脚的LED每500ms闪烁一次</div>
+            <p>在你的工程 <code>第一讲/v2.18/User/main.c</code> 中实现</p>
+        </div>
+
+        <div class="compare">
+            <div class="compare-item">
+                <div class="compare-header">8051 实现</div>
+<pre>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;STC15F2K60S2.H&gt;</span>
+
+sbit LED = P2^0;
+
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-keyword">while</span>(<span class="code-number">1</span>) {
+        LED = <span class="code-number">0</span>;
+        Delay_ms(<span class="code-number">500</span>);
+        LED = <span class="code-number">1</span>;
+        Delay_ms(<span class="code-number">500</span>);
+    }
+}
+</pre>
+            </div>
+            <div class="compare-item">
+                <div class="compare-header">CH32 实现</div>
+<pre>
+<span class="code-keyword">#include</span> <span class="code-string">"debug.h"</span>
+
+<span class="code-keyword">void</span> <span class="code-function">main</span>(<span class="code-keyword">void</span>) {
+    <span class="code-comment">// 系统初始化</span>
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
+    Delay_Init();
+
+    <span class="code-comment">// GPIO初始化</span>
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+    GPIO_InitTypeDef GPIO_InitStructure = {<span class="code-number">0</span>};
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+    <span class="code-keyword">while</span>(<span class="code-number">1</span>) {
+        GPIO_SetBits(GPIOC, GPIO_Pin_2);
+        Delay_Ms(<span class="code-number">500</span>);
+        GPIO_ResetBits(GPIOC, GPIO_Pin_2);
+        Delay_Ms(<span class="code-number">500</span>);
+    }
+}
+</pre>
+            </div>
+        </div>
+
+        <!-- 第四章 -->
+        <h2 id="chapter4">第四章 定时器与中断</h2>
+
+        <h3 id="tim-types">CH32V30x 定时器分类</h3>
+
+        <!-- 定时器分类图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">定时器类型与功能</div>
+            <svg class="svg-diagram" viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+                <!-- 高级定时器 -->
+                <g transform="translate(30, 30)">
+                    <rect x="0" y="0" width="200" height="100" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+                    <text x="100" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#991b1b">🔥 高级定时器</text>
+                    <text x="100" y="48" text-anchor="middle" font-size="12" fill="#b91c1c">TIM1, TIM8, TIM9, TIM10</text>
+                    <line x1="20" y1="60" x2="180" y2="60" stroke="#fca5a5" stroke-width="1"/>
+                    <text x="100" y="78" text-anchor="middle" font-size="11" fill="#dc2626">PWM互补输出</text>
+                    <text x="100" y="93" text-anchor="middle" font-size="11" fill="#dc2626">死区控制、刹车</text>
+                </g>
+
+                <!-- 通用定时器 -->
+                <g transform="translate(250, 30)">
+                    <rect x="0" y="0" width="200" height="100" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="100" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">⚡ 通用定时器</text>
+                    <text x="100" y="48" text-anchor="middle" font-size="12" fill="#2563eb">TIM2, TIM3, TIM4, TIM5</text>
+                    <line x1="20" y1="60" x2="180" y2="60" stroke="#93c5fd" stroke-width="1"/>
+                    <text x="100" y="78" text-anchor="middle" font-size="11" fill="#3b82f6">定时中断、PWM</text>
+                    <text x="100" y="93" text-anchor="middle" font-size="11" fill="#3b82f6">输入捕获、编码器</text>
+                </g>
+
+                <!-- 基本定时器 -->
+                <g transform="translate(470, 30)">
+                    <rect x="0" y="0" width="200" height="100" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+                    <text x="100" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#065f46">✅ 基本定时器</text>
+                    <text x="100" y="48" text-anchor="middle" font-size="12" fill="#059669">TIM6, TIM7</text>
+                    <line x1="20" y1="60" x2="180" y2="60" stroke="#6ee7b7" stroke-width="1"/>
+                    <text x="100" y="78" text-anchor="middle" font-size="11" fill="#10b981">纯定时功能</text>
+                    <text x="100" y="93" text-anchor="middle" font-size="11" fill="#10b981">DAC触发</text>
+                </g>
+
+                <!-- 时钟总线标注 -->
+                <g transform="translate(30, 160)">
+                    <rect x="0" y="0" width="200" height="35" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+                    <text x="100" y="22" text-anchor="middle" font-size="12" fill="#92400e">APB2 (96MHz)</text>
+                </g>
+                <g transform="translate(250, 160)">
+                    <rect x="0" y="0" width="420" height="35" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+                    <text x="210" y="22" text-anchor="middle" font-size="12" fill="#1e40af">APB1 (48MHz)</text>
+                </g>
+
+                <!-- 推荐标注 -->
+                <g transform="translate(250, 220)">
+                    <rect x="0" y="0" width="200" height="40" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+                    <text x="100" y="25" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">💡 入门推荐: TIM3</text>
+                </g>
+            </svg>
+        </div>
+
+        <h3 id="tim-basic">基本定时中断配置</h3>
+
+        <div class="card">
+            <div class="card-title">🔢 定时时间计算公式</div>
+            <p style="font-size: 1.2rem; text-align: center; margin: 20px 0;">
+                <strong>定时时间 = (ARR + 1) × (PSC + 1) / 时钟频率</strong>
+            </p>
+            <p>例如：ARR=999, PSC=95, 时钟=96MHz</p>
+            <p>定时时间 = (999+1) × (95+1) / 96000000 = <strong>1ms</strong></p>
+        </div>
+
+        <!-- 定时器配置流程 -->
+        <div class="diagram-container">
+            <div class="diagram-title">定时器中断配置流程</div>
+            <div class="mermaid">
+flowchart TB
+    A["1️⃣ 开启TIM时钟<br/><code>RCC_APB1PeriphClockCmd</code>"] --> B["2️⃣ 配置定时器<br/><code>TIM_TimeBaseInit</code>"]
+    B --> C["3️⃣ 使能中断<br/><code>TIM_ITConfig</code>"]
+    C --> D["4️⃣ 配置NVIC<br/><code>NVIC_Init</code>"]
+    D --> E["5️⃣ 启动定时器<br/><code>TIM_Cmd</code>"]
+    E --> F["6️⃣ 编写中断函数<br/><code>TIMx_IRQHandler</code>"]
+
+    style A fill:#fee2e2,stroke:#ef4444
+    style B fill:#dbeafe,stroke:#3b82f6
+    style C fill:#fef3c7,stroke:#f59e0b
+    style D fill:#d1fae5,stroke:#10b981
+    style E fill:#e0e7ff,stroke:#6366f1
+    style F fill:#fce7f3,stroke:#ec4899
+            </div>
+        </div>
+
+        <div class="compare">
+            <div class="compare-item">
+                <div class="compare-header">8051 定时器配置</div>
+<pre>
+<span class="code-keyword">void</span> <span class="code-function">Timer0_Init</span>(<span class="code-keyword">void</span>) {
+    TMOD &= <span class="code-number">0xF0</span>;
+    TMOD |= <span class="code-number">0x01</span>;  <span class="code-comment">// 模式1</span>
+    TL0 = <span class="code-number">0x18</span>;
+    TH0 = <span class="code-number">0xFC</span>;    <span class="code-comment">// 1ms @12MHz</span>
+    TF0 = <span class="code-number">0</span>;
+    TR0 = <span class="code-number">1</span>;       <span class="code-comment">// 启动</span>
+    ET0 = <span class="code-number">1</span>;       <span class="code-comment">// 中断使能</span>
+    EA = <span class="code-number">1</span>;        <span class="code-comment">// 总中断</span>
+}
+
+<span class="code-keyword">void</span> <span class="code-function">T0_ISR</span>() <span class="code-keyword">interrupt</span> <span class="code-number">1</span> {
+    TH0 = <span class="code-number">0xFC</span>;
+    TL0 = <span class="code-number">0x18</span>;
+    <span class="code-comment">// 处理代码</span>
+}
+</pre>
+            </div>
+            <div class="compare-item">
+                <div class="compare-header">CH32 定时器配置</div>
+<pre>
+<span class="code-keyword">void</span> <span class="code-function">TIM3_Init</span>(<span class="code-keyword">void</span>) {
+    <span class="code-comment">// 1. 开时钟</span>
+    RCC_APB1PeriphClockCmd(
+        RCC_APB1Periph_TIM3, ENABLE);
+
+    <span class="code-comment">// 2. 配置定时器</span>
+    TIM_TimeBaseInitTypeDef TIM_InitStruct;
+    TIM_InitStruct.TIM_Period = <span class="code-number">1000-1</span>;    <span class="code-comment">// ARR</span>
+    TIM_InitStruct.TIM_Prescaler = <span class="code-number">96-1</span>;   <span class="code-comment">// PSC</span>
+    TIM_InitStruct.TIM_ClockDivision = <span class="code-number">0</span>;
+    TIM_InitStruct.TIM_CounterMode =
+        TIM_CounterMode_Up;
+    TIM_TimeBaseInit(TIM3, &TIM_InitStruct);
+
+    <span class="code-comment">// 3. 配置中断</span>
+    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+
+    <span class="code-comment">// 4. 配置NVIC</span>
+    NVIC_InitTypeDef NVIC_InitStruct;
+    NVIC_InitStruct.NVIC_IRQChannel = TIM3_IRQn;
+    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = <span class="code-number">1</span>;
+    NVIC_InitStruct.NVIC_IRQChannelSubPriority = <span class="code-number">3</span>;
+    NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStruct);
+
+    <span class="code-comment">// 5. 启动定时器</span>
+    TIM_Cmd(TIM3, ENABLE);
+}
+
+<span class="code-keyword">void</span> <span class="code-function">TIM3_IRQHandler</span>(<span class="code-keyword">void</span>) {
+    <span class="code-keyword">if</span>(TIM_GetITStatus(TIM3, TIM_IT_Update)) {
+        <span class="code-comment">// 处理代码</span>
+        TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+    }
+}
+</pre>
+            </div>
+        </div>
+
+        <h3 id="tim-nvic">NVIC 中断控制器</h3>
+
+        <!-- NVIC流程图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">NVIC 中断处理流程</div>
+            <div class="mermaid">
+flowchart LR
+    subgraph Peripherals["外设中断源"]
+        TIM["TIM2_IRQn<br/>TIM3_IRQn<br/>..."]
+        USART["USART1_IRQn<br/>USART2_IRQn<br/>..."]
+        EXTI["EXTI0_IRQn<br/>EXTI1_IRQn<br/>..."]
+    end
+
+    subgraph NVIC["NVIC 控制器"]
+        direction TB
+        PRIO["优先级判断<br/>抢占 > 子优先级"]
+        QUEUE["中断队列"]
+    end
+
+    subgraph CPU["CPU"]
+        ISR["执行中断服务函数<br/>TIMx_IRQHandler()"]
+    end
+
+    TIM --> NVIC
+    USART --> NVIC
+    EXTI --> NVIC
+    NVIC --> CPU
+
+    style PRIO fill:#fef3c7,stroke:#f59e0b
+    style ISR fill:#d1fae5,stroke:#10b981
+            </div>
+        </div>
+
+        <h4>NVIC 优先级分组</h4>
+
+        <table>
+            <tr>
+                <th>分组</th>
+                <th>抢占优先级位数</th>
+                <th>子优先级位数</th>
+                <th>说明</th>
+            </tr>
+            <tr>
+                <td>NVIC_PriorityGroup_0</td>
+                <td>0</td>
+                <td>4</td>
+                <td>无抢占</td>
+            </tr>
+            <tr>
+                <td>NVIC_PriorityGroup_1</td>
+                <td>1</td>
+                <td>3</td>
+                <td>2级抢占</td>
+            </tr>
+            <tr>
+                <td><strong>NVIC_PriorityGroup_2</strong></td>
+                <td>2</td>
+                <td>2</td>
+                <td><strong>✅ 推荐使用</strong></td>
+            </tr>
+            <tr>
+                <td>NVIC_PriorityGroup_3</td>
+                <td>3</td>
+                <td>1</td>
+                <td>8级抢占</td>
+            </tr>
+            <tr>
+                <td>NVIC_PriorityGroup_4</td>
+                <td>4</td>
+                <td>0</td>
+                <td>16级抢占</td>
+            </tr>
+        </table>
+
+        <h3 id="tim-exercise">实战练习：定时器LED</h3>
+
+        <div class="exercise">
+            <div class="exercise-title">📝 练习2：用TIM3中断实现1秒LED翻转</div>
+            <p>改造你的main.c，将Delay_Ms改为定时器中断方式</p>
+        </div>
+
+<pre>
+<span class="code-keyword">#include</span> <span class="code-string">"debug.h"</span>
+
+<span class="code-comment">// 中断函数声明（WCH特有属性）</span>
+<span class="code-keyword">void</span> TIM3_IRQHandler(<span class="code-keyword">void</span>) __attribute__((interrupt(<span class="code-string">"WCH-Interrupt-fast"</span>)));
+
+<span class="code-comment">// 全局变量</span>
+<span class="code-keyword">volatile</span> uint32_t uwTick = <span class="code-number">0</span>;
+<span class="code-keyword">volatile</span> uint8_t Led_Flag = <span class="code-number">0</span>;
+
+<span class="code-comment">// TIM3初始化：1ms中断</span>
+<span class="code-keyword">void</span> <span class="code-function">TIM3_Init</span>(<span class="code-keyword">void</span>)
+{
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct = {<span class="code-number">0</span>};
+    TIM_TimeBaseInitStruct.TIM_Period = <span class="code-number">1000</span> - <span class="code-number">1</span>;
+    TIM_TimeBaseInitStruct.TIM_Prescaler = <span class="code-number">96</span> - <span class="code-number">1</span>;
+    TIM_TimeBaseInitStruct.TIM_ClockDivision = <span class="code-number">0</span>;
+    TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseInit(TIM3, &TIM_TimeBaseInitStruct);
+
+    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+
+    NVIC_InitTypeDef NVIC_InitStruct = {<span class="code-number">0</span>};
+    NVIC_InitStruct.NVIC_IRQChannel = TIM3_IRQn;
+    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = <span class="code-number">1</span>;
+    NVIC_InitStruct.NVIC_IRQChannelSubPriority = <span class="code-number">3</span>;
+    NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStruct);
+
+    TIM_Cmd(TIM3, ENABLE);
+}
+
+<span class="code-comment">// TIM3中断服务函数</span>
+<span class="code-keyword">void</span> <span class="code-function">TIM3_IRQHandler</span>(<span class="code-keyword">void</span>)
+{
+    <span class="code-keyword">if</span>(TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
+    {
+        uwTick++;
+        <span class="code-keyword">if</span>(uwTick >= <span class="code-number">1000</span>) {
+            uwTick = <span class="code-number">0</span>;
+            Led_Flag ^= <span class="code-number">1</span>;
+            <span class="code-keyword">if</span>(Led_Flag) GPIO_SetBits(GPIOC, GPIO_Pin_2);
+            <span class="code-keyword">else</span> GPIO_ResetBits(GPIOC, GPIO_Pin_2);
+        }
+        TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+    }
+}
+
+<span class="code-keyword">int</span> <span class="code-function">main</span>(<span class="code-keyword">void</span>)
+{
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
+    Delay_Init();
+    USART_Printf_Init(<span class="code-number">115200</span>);
+
+    <span class="code-comment">// LED初始化</span>
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    GPIO_InitTypeDef GPIO_InitStruct = {<span class="code-number">0</span>};
+    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_2;
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    TIM3_Init();
+
+    <span class="code-keyword">while</span>(<span class="code-number">1</span>) { }
+}
+</pre>
+
+        <!-- 第五章 -->
+        <h2 id="chapter5">第五章 串口通信</h2>
+
+        <h3 id="usart-init">USART 初始化</h3>
+
+        <!-- USART流程图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">USART 通信原理</div>
+            <svg class="svg-diagram" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- CH32 -->
+                <rect x="50" y="50" width="200" height="100" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+                <text x="150" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">CH32V30x</text>
+                <text x="150" y="105" text-anchor="middle" font-size="12" fill="#3b82f6">USART1</text>
+                <text x="150" y="125" text-anchor="middle" font-size="11" fill="#64748b">TX: PA9 | RX: PA10</text>
+
+                <!-- PC -->
+                <rect x="450" y="50" width="200" height="100" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                <text x="550" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#92400e">电脑</text>
+                <text x="550" y="105" text-anchor="middle" font-size="12" fill="#f59e0b">串口调试助手</text>
+                <text x="550" y="125" text-anchor="middle" font-size="11" fill="#64748b">115200-8-N-1</text>
+
+                <!-- TX线 -->
+                <line x1="250" y1="85" x2="450" y2="85" stroke="#10b981" stroke-width="3"/>
+                <polygon points="440,80 450,85 440,90" fill="#10b981"/>
+                <text x="350" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#10b981">TX → RX</text>
+
+                <!-- RX线 -->
+                <line x1="450" y1="115" x2="250" y2="115" stroke="#ef4444" stroke-width="3"/>
+                <polygon points="260,110 250,115 260,120" fill="#ef4444"/>
+                <text x="350" y="135" text-anchor="middle" font-size="12" font-weight="bold" fill="#ef4444">RX ← TX</text>
+
+                <!-- USB转TTL -->
+                <rect x="330" y="155" width="100" height="30" rx="6" fill="#e0e7ff" stroke="#6366f1" stroke-width="1"/>
+                <text x="380" y="175" text-anchor="middle" font-size="11" fill="#4f46e5">USB转TTL</text>
+            </svg>
+        </div>
+
+        <div class="tip">
+            <div class="tip-title">💡 好消息</div>
+            <p>你的工程包中 <code>Debug/debug.c</code> 已经实现了printf重定向，直接调用 <code>USART_Printf_Init(115200)</code> 即可使用 <code>printf()</code>！</p>
+        </div>
+
+<pre>
+<span class="code-keyword">#include</span> <span class="code-string">"debug.h"</span>
+
+<span class="code-keyword">int</span> <span class="code-function">main</span>(<span class="code-keyword">void</span>)
+{
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
+    Delay_Init();
+
+    <span class="code-comment">// 一行搞定串口printf</span>
+    <span class="code-function">USART_Printf_Init</span>(<span class="code-number">115200</span>);
+
+    printf(<span class="code-string">"Hello CH32V30x!\n"</span>);
+    printf(<span class="code-string">"System Clock: %d Hz\n"</span>, SystemCoreClock);
+
+    <span class="code-keyword">int</span> count = <span class="code-number">0</span>;
+    <span class="code-keyword">while</span>(<span class="code-number">1</span>) {
+        printf(<span class="code-string">"Count: %d\n"</span>, count++);
+        Delay_Ms(<span class="code-number">1000</span>);
+    }
+}
+</pre>
+
+        <!-- 第六章 -->
+        <h2 id="chapter6">第六章 综合项目</h2>
+
+        <h3 id="scheduler">移植你的任务调度器</h3>
+
+        <!-- 任务调度器架构图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">任务调度器架构</div>
+            <div class="mermaid">
+flowchart TB
+    subgraph HW["硬件层"]
+        TIM["TIM3<br/>1ms中断"]
+    end
+
+    subgraph TICK["时基层"]
+        UWTICK["uwTick++<br/>全局时间戳"]
+    end
+
+    subgraph SCHED["调度器"]
+        direction LR
+        CHECK["检查各任务<br/>是否到期"]
+        EXEC["执行到期任务"]
+    end
+
+    subgraph TASKS["任务列表"]
+        T1["Led_Task<br/>500ms"]
+        T2["Key_Task<br/>10ms"]
+        T3["Display_Task<br/>100ms"]
+        T4["Sensor_Task<br/>200ms"]
+    end
+
+    TIM --> |"中断"| UWTICK
+    UWTICK --> SCHED
+    SCHED --> TASKS
+
+    style TIM fill:#fee2e2,stroke:#ef4444
+    style UWTICK fill:#fef3c7,stroke:#f59e0b
+    style CHECK fill:#dbeafe,stroke:#3b82f6
+    style EXEC fill:#d1fae5,stroke:#10b981
+            </div>
+        </div>
+
+<pre>
+<span class="code-keyword">#include</span> <span class="code-string">"debug.h"</span>
+
+<span class="code-comment">/*==================== 任务调度器 ====================*/</span>
+
+<span class="code-keyword">volatile</span> uint32_t uwTick = <span class="code-number">0</span>;
+
+<span class="code-keyword">typedef struct</span> {
+    <span class="code-keyword">void</span> (*task_func)(<span class="code-keyword">void</span>);
+    uint32_t rate_ms;
+    uint32_t last_ms;
+} task_t;
+
+<span class="code-keyword">void</span> Led_Task(<span class="code-keyword">void</span>);
+<span class="code-keyword">void</span> Key_Task(<span class="code-keyword">void</span>);
+<span class="code-keyword">void</span> Display_Task(<span class="code-keyword">void</span>);
+
+task_t Scheduler_Task[] = {
+    {Led_Task,      <span class="code-number">500</span>,  <span class="code-number">0</span>},
+    {Key_Task,      <span class="code-number">10</span>,   <span class="code-number">0</span>},
+    {Display_Task,  <span class="code-number">100</span>,  <span class="code-number">0</span>},
+};
+
+<span class="code-keyword">const</span> uint8_t task_num = <span class="code-keyword">sizeof</span>(Scheduler_Task) / <span class="code-keyword">sizeof</span>(task_t);
+
+<span class="code-keyword">void</span> <span class="code-function">Scheduler_Run</span>(<span class="code-keyword">void</span>)
+{
+    <span class="code-keyword">for</span>(uint8_t i = <span class="code-number">0</span>; i < task_num; i++) {
+        uint32_t now = uwTick;
+        <span class="code-keyword">if</span>(now - Scheduler_Task[i].last_ms >= Scheduler_Task[i].rate_ms) {
+            Scheduler_Task[i].last_ms = now;
+            Scheduler_Task[i].task_func();
+        }
+    }
+}
+
+<span class="code-comment">/*==================== 任务实现 ====================*/</span>
+
+uint8_t led_state = <span class="code-number">0</span>;
+
+<span class="code-keyword">void</span> <span class="code-function">Led_Task</span>(<span class="code-keyword">void</span>) {
+    led_state ^= <span class="code-number">1</span>;
+    <span class="code-keyword">if</span>(led_state) GPIO_SetBits(GPIOC, GPIO_Pin_2);
+    <span class="code-keyword">else</span> GPIO_ResetBits(GPIOC, GPIO_Pin_2);
+}
+
+<span class="code-keyword">void</span> <span class="code-function">Key_Task</span>(<span class="code-keyword">void</span>) {
+    <span class="code-comment">// 按键扫描</span>
+}
+
+<span class="code-keyword">void</span> <span class="code-function">Display_Task</span>(<span class="code-keyword">void</span>) {
+    <span class="code-keyword">static</span> uint32_t count = <span class="code-number">0</span>;
+    printf(<span class="code-string">"Tick: %lu\n"</span>, count++);
+}
+
+<span class="code-comment">/*==================== 主函数 ====================*/</span>
+
+<span class="code-keyword">void</span> TIM3_IRQHandler(<span class="code-keyword">void</span>) __attribute__((interrupt(<span class="code-string">"WCH-Interrupt-fast"</span>)));
+
+<span class="code-keyword">void</span> <span class="code-function">TIM3_IRQHandler</span>(<span class="code-keyword">void</span>) {
+    <span class="code-keyword">if</span>(TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) {
+        uwTick++;
+        TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+    }
+}
+
+<span class="code-keyword">int</span> <span class="code-function">main</span>(<span class="code-keyword">void</span>)
+{
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
+    Delay_Init();
+    USART_Printf_Init(<span class="code-number">115200</span>);
+
+    <span class="code-comment">// GPIO/TIM初始化...</span>
+
+    <span class="code-keyword">while</span>(<span class="code-number">1</span>) {
+        Scheduler_Run();
+    }
+}
+</pre>
+
+        <h3 id="template">工程模板结构建议</h3>
+
+        <!-- 工程结构图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">推荐的工程目录结构</div>
+            <div class="mermaid">
+flowchart TB
+    ROOT["📁 你的CH32工程"] --> CORE["📁 Core<br/><i>RISC-V内核</i>"]
+    ROOT --> DEBUG["📁 Debug<br/><i>调试工具</i>"]
+    ROOT --> PERIPH["📁 Peripheral<br/><i>官方外设库</i>"]
+    ROOT --> STARTUP["📁 Startup<br/><i>启动文件</i>"]
+    ROOT --> DRIVER["📁 Driver 🆕<br/><i>你的驱动层</i>"]
+    ROOT --> APP["📁 App 🆕<br/><i>应用层</i>"]
+    ROOT --> USER["📁 User<br/><i>主程序</i>"]
+
+    DRIVER --> D1["bsp_led.c/h"]
+    DRIVER --> D2["bsp_key.c/h"]
+    DRIVER --> D3["bsp_timer.c/h"]
+
+    APP --> A1["scheduler.c/h"]
+    APP --> A2["task_led.c/h"]
+    APP --> A3["task_key.c/h"]
+
+    USER --> U1["main.c"]
+    USER --> U2["ch32v30x_it.c"]
+
+    style ROOT fill:#eff6ff,stroke:#3b82f6
+    style DRIVER fill:#dcfce7,stroke:#22c55e
+    style APP fill:#fef3c7,stroke:#f59e0b
+            </div>
+        </div>
+
+        <!-- 附录 -->
+        <h2 id="appendix">附录</h2>
+
+        <h3 id="api-quick">API 速查表</h3>
+
+        <h4>GPIO</h4>
+        <table>
+            <tr><th>功能</th><th>函数</th></tr>
+            <tr><td>初始化</td><td><code>GPIO_Init(GPIOx, &InitStruct)</code></td></tr>
+            <tr><td>置高</td><td><code>GPIO_SetBits(GPIOx, GPIO_Pin_x)</code></td></tr>
+            <tr><td>置低</td><td><code>GPIO_ResetBits(GPIOx, GPIO_Pin_x)</code></td></tr>
+            <tr><td>写位</td><td><code>GPIO_WriteBit(GPIOx, GPIO_Pin_x, BitVal)</code></td></tr>
+            <tr><td>写端口</td><td><code>GPIO_Write(GPIOx, PortVal)</code></td></tr>
+            <tr><td>读输入</td><td><code>GPIO_ReadInputDataBit(GPIOx, GPIO_Pin_x)</code></td></tr>
+        </table>
+
+        <h4>定时器</h4>
+        <table>
+            <tr><th>功能</th><th>函数</th></tr>
+            <tr><td>基本初始化</td><td><code>TIM_TimeBaseInit(TIMx, &InitStruct)</code></td></tr>
+            <tr><td>使能定时器</td><td><code>TIM_Cmd(TIMx, ENABLE)</code></td></tr>
+            <tr><td>中断配置</td><td><code>TIM_ITConfig(TIMx, TIM_IT_Update, ENABLE)</code></td></tr>
+            <tr><td>获取中断状态</td><td><code>TIM_GetITStatus(TIMx, TIM_IT_Update)</code></td></tr>
+            <tr><td>清除中断标志</td><td><code>TIM_ClearITPendingBit(TIMx, TIM_IT_Update)</code></td></tr>
+        </table>
+
+        <h3 id="troubleshooting">常见问题排查</h3>
+
+        <!-- 问题排查流程图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">GPIO不工作排查流程</div>
+            <div class="mermaid">
+flowchart TB
+    START["GPIO不工作"] --> Q1{"开了RCC时钟?"}
+    Q1 -->|"否"| A1["添加 RCC_APB2PeriphClockCmd"]
+    Q1 -->|"是"| Q2{"模式正确?"}
+    Q2 -->|"否"| A2["检查 GPIO_Mode"]
+    Q2 -->|"是"| Q3{"引脚正确?"}
+    Q3 -->|"否"| A3["检查 GPIO_Pin"]
+    Q3 -->|"是"| Q4{"硬件连接?"}
+    Q4 -->|"否"| A4["检查接线"]
+    Q4 -->|"是"| A5["检查其他代码逻辑"]
+
+    style START fill:#fee2e2,stroke:#ef4444
+    style A1 fill:#dcfce7,stroke:#22c55e
+    style A2 fill:#dcfce7,stroke:#22c55e
+    style A3 fill:#dcfce7,stroke:#22c55e
+    style A4 fill:#dcfce7,stroke:#22c55e
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">❌ 问题1：GPIO不工作</div>
+            <p><strong>症状</strong>：设置了GPIO但引脚无输出</p>
+            <p><strong>原因</strong>：99%是忘记开时钟</p>
+            <p><strong>解决</strong>：检查 <code>RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOx, ENABLE)</code></p>
+        </div>
+
+        <div class="card">
+            <div class="card-title">❌ 问题2：中断不触发</div>
+            <p><strong>检查清单</strong>：</p>
+            <ol>
+                <li>外设时钟是否开启？</li>
+                <li>外设中断是否使能？(<code>TIM_ITConfig</code>)</li>
+                <li>NVIC是否配置？(<code>NVIC_Init</code>)</li>
+                <li>中断函数名是否正确？</li>
+                <li>是否添加了 <code>__attribute__((interrupt("WCH-Interrupt-fast")))</code>？</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <div class="card-title">❌ 问题3：printf无输出</div>
+            <p><strong>检查清单</strong>：</p>
+            <ol>
+                <li>是否调用了 <code>USART_Printf_Init(115200)</code>？</li>
+                <li>串口波特率是否匹配？</li>
+                <li>TX引脚接线是否正确？(默认PA9)</li>
+            </ol>
+        </div>
+
+        <hr style="margin: 50px 0;">
+
+        <div style="text-align: center; color: var(--text-light);">
+            <p>📚 CH32V30x 学习指南 · 基于 v2.18 工程包</p>
+            <p>祝你学习顺利！🚀</p>
+        </div>
+
+    </main>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#dbeafe',
+                primaryBorderColor: '#3b82f6',
+                primaryTextColor: '#1e40af',
+                secondaryColor: '#d1fae5',
+                secondaryBorderColor: '#10b981',
+                tertiaryColor: '#fef3c7',
+                tertiaryBorderColor: '#f59e0b',
+                lineColor: '#64748b',
+                textColor: '#1e293b',
+                fontSize: '14px'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 20
+            }
+        });
+    </script>
+</body>
+</html>
