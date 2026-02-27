@@ -1,10 +1,16 @@
 ---
 title: 关于
+description: 关于我
+date: '2019-02-28'
+license: CC BY-NC-ND
+lastmod: '2020-10-09'
 menu:
-    main: 
+    main:
         weight: -90
         params:
             icon: user
 ---
 
-This is a test page for i18n support.
+欢迎来到鲲的琴盒！
+
+联系方式：870524302@qq.com
