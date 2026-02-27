@@ -9,28 +9,22 @@
   <sitemap>
     <loc>https://example.com/ja/sitemap.xml</loc>
     
-      <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-    
   </sitemap>
   
   <sitemap>
     <loc>https://example.com/zh-cn/sitemap.xml</loc>
     
-      <lastmod>2026-02-10T17:12:21+08:00</lastmod>
+      <lastmod>2019-05-28T00:00:00+00:00</lastmod>
     
   </sitemap>
   
   <sitemap>
     <loc>https://example.com/zh-tw/sitemap.xml</loc>
     
-      <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-    
   </sitemap>
   
   <sitemap>
     <loc>https://example.com/ar/sitemap.xml</loc>
-    
-      <lastmod>2019-03-09T00:00:00+00:00</lastmod>
     
   </sitemap>
   
