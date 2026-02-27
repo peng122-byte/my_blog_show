@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>Kun</copyright>
-        <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://kun123.xyz/en/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://kun123.xyz/en/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Archives</title>
         <link>https://kun123.xyz/en/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
@@ -21,26 +21,25 @@
         <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
         
         <guid>https://kun123.xyz/en/about/</guid>
-        <description>&lt;p&gt;Written in Go, Hugo is an open source static site generator available under the &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/blob/master/LICENSE&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Apache License 2.0.&lt;/a&gt; Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p&gt;
-&lt;p&gt;Hugo makes use of a variety of open source projects including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/yuin/goldmark&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/yuin/goldmark&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/alecthomas/chroma&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/alecthomas/chroma&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/muesli/smartcrop&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/muesli/smartcrop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/cobra&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/viper&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/viper&lt;/a&gt;&lt;/li&gt;
+        <description>&lt;h2 id=&#34;-hello&#34;&gt;👋 Hello!
+&lt;/h2&gt;&lt;p&gt;I&amp;rsquo;m an &lt;strong&gt;Embedded Systems Enthusiast&lt;/strong&gt;, currently an undergraduate student majoring in &lt;strong&gt;Measurement &amp;amp; Control Technology and Instruments&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;-tech-focus&#34;&gt;🔧 Tech Focus
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Embedded Development&lt;/li&gt;
+&lt;li&gt;Artificial Intelligence (AI)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.&lt;/p&gt;
-&lt;p&gt;Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p&gt;
-&lt;p&gt;Websites built with Hugo are extremely fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p&gt;
-&lt;p&gt;Learn more and contribute on &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;-hobbies&#34;&gt;🎻 Hobbies
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Violin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-contact-me&#34;&gt;📫 Contact Me
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Email&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;mailto:zhangkun_peng@foxmail.com&#34; &gt;zhangkun_peng@foxmail.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitHub&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://github.com/peng122-byte&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;peng122-byte&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Bilibili&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://space.bilibili.com/520865862&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;My Channel&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         <item>
