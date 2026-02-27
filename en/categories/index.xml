@@ -6,6 +6,15 @@
         <description>Recent content in Categories on Kun&#39;s Music Box</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
-        <copyright>Kun</copyright><atom:link href="https://kun123.xyz/en/categories/index.xml" rel="self" type="application/rss+xml" />
+        <copyright>Kun</copyright>
+        <lastBuildDate>Fri, 27 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://kun123.xyz/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Tutorial</title>
+        <link>https://kun123.xyz/en/categories/tutorial/</link>
+        <pubDate>Fri, 27 Feb 2026 00:00:00 +0000</pubDate>
+        
+        <guid>https://kun123.xyz/en/categories/tutorial/</guid>
+        <description></description>
+        </item>
+        
     </channel>
 </rss>

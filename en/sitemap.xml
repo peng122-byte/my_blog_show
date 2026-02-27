@@ -2,6 +2,83 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://kun123.xyz/en/tags/51-mcu/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/en/tags/beginner-guide/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/en/categories/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/categories/"
+                />
+  </url><url>
+    <loc>https://kun123.xyz/en/tags/digital-circuit/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/en/p/digital-circuit-quick-start-guide/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/p/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E9%80%9A%E5%85%B3%E6%8C%87%E5%8D%97/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/p/digital-circuit-quick-start-guide/"
+                />
+  </url><url>
+    <loc>https://kun123.xyz/en/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/"
+                />
+  </url><url>
+    <loc>https://kun123.xyz/en/post/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/post/"
+                />
+  </url><url>
+    <loc>https://kun123.xyz/en/tags/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/tags/"
+                />
+  </url><url>
+    <loc>https://kun123.xyz/en/categories/tutorial/</loc>
+    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://kun123.xyz/en/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
     <xhtml:link
@@ -13,19 +90,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://kun123.xyz/en/archives/"
-                />
-  </url><url>
-    <loc>https://kun123.xyz/en/</loc>
-    <lastmod>2020-10-09T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://kun123.xyz/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kun123.xyz/en/"
                 />
   </url><url>
     <loc>https://kun123.xyz/en/page/</loc>
@@ -54,18 +118,6 @@
                 href="https://kun123.xyz/en/about/"
                 />
   </url><url>
-    <loc>https://kun123.xyz/en/categories/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://kun123.xyz/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kun123.xyz/en/categories/"
-                />
-  </url><url>
     <loc>https://kun123.xyz/en/links/</loc>
     <xhtml:link
                 rel="alternate"
@@ -88,18 +140,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://kun123.xyz/en/search/"
-                />
-  </url><url>
-    <loc>https://kun123.xyz/en/tags/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://kun123.xyz/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kun123.xyz/en/tags/"
                 />
   </url>
 </urlset>
