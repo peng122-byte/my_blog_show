@@ -2,41 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Tags on 演示站点</title>
-        <link>https://example.com/tags/</link>
+        <link>https://kun123.xyz/tags/</link>
         <description>Recent content in Tags on 演示站点</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Example Person</copyright>
-        <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://kun123.xyz/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Css</title>
-        <link>https://example.com/tags/css/</link>
+        <link>https://kun123.xyz/tags/css/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/tags/css/</guid>
+        <guid>https://kun123.xyz/tags/css/</guid>
         <description></description>
         </item>
         <item>
         <title>Html</title>
-        <link>https://example.com/tags/html/</link>
+        <link>https://kun123.xyz/tags/html/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/tags/html/</guid>
+        <guid>https://kun123.xyz/tags/html/</guid>
         <description></description>
         </item>
         <item>
         <title>Markdown</title>
-        <link>https://example.com/tags/markdown/</link>
+        <link>https://kun123.xyz/tags/markdown/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/tags/markdown/</guid>
+        <guid>https://kun123.xyz/tags/markdown/</guid>
         <description></description>
         </item>
         <item>
         <title>Themes</title>
-        <link>https://example.com/tags/themes/</link>
+        <link>https://kun123.xyz/tags/themes/</link>
         <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://example.com/tags/themes/</guid>
+        <guid>https://kun123.xyz/tags/themes/</guid>
         <description></description>
         </item>
         
