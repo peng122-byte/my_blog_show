@@ -1540,7 +1540,7 @@ flowchart LR
         <!-- 第五章 -->
         <h2 id="chapter5">第五章 串口通信</h2>
 
-        <h3 id="usart-init">USART 初始化</h3>
+        <h3 id="usart-init">USART 初始化配置</h3>
 
         <!-- USART流程图 -->
         <div class="diagram-container">
@@ -1549,8 +1549,8 @@ flowchart LR
                 <!-- CH32 -->
                 <rect x="50" y="50" width="200" height="100" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
                 <text x="150" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">CH32V30x</text>
-                <text x="150" y="105" text-anchor="middle" font-size="12" fill="#3b82f6">USART1</text>
-                <text x="150" y="125" text-anchor="middle" font-size="11" fill="#64748b">TX: PA9 | RX: PA10</text>
+                <text x="150" y="105" text-anchor="middle" font-size="12" fill="#3b82f6">USART3</text>
+                <text x="150" y="125" text-anchor="middle" font-size="11" fill="#64748b">TX: PB10 | RX: PB11</text>
 
                 <!-- PC -->
                 <rect x="450" y="50" width="200" height="100" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
@@ -1574,9 +1574,106 @@ flowchart LR
             </svg>
         </div>
 
+        <p>串口初始化需要配置三大块：<strong>GPIO</strong>（引脚复用）、<strong>USART</strong>（通信参数）、<strong>NVIC</strong>（中断优先级）。</p>
+
+        <!-- USART初始化流程图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">USART 初始化四步走</div>
+            <div class="mermaid">
+flowchart LR
+    A["1. 开时钟<br/>RCC"] --> B["2. 配GPIO<br/>复用推挽"]
+    B --> C["3. 设USART参数<br/>波特率/数据位等"]
+    C --> D["4. 配NVIC<br/>接收中断"]
+    D --> E["5. 使能USART"]
+
+    style A fill:#fee2e2,stroke:#ef4444
+    style B fill:#fef3c7,stroke:#f59e0b
+    style C fill:#dbeafe,stroke:#3b82f6
+    style D fill:#e0e7ff,stroke:#6366f1
+    style E fill:#dcfce7,stroke:#22c55e
+            </div>
+        </div>
+
+        <div class="tip">
+            <div class="tip-title">💡 关键知识点</div>
+            <p><strong>USART1</strong> 挂在 APB2 上（高速总线），<strong>USART2~5</strong> 挂在 APB1 上（低速总线），开时钟时要注意区分！</p>
+        </div>
+
+        <!-- USART引脚对照表 -->
+        <table>
+            <tr><th>串口</th><th>TX引脚</th><th>RX引脚</th><th>时钟总线</th><th>时钟宏</th></tr>
+            <tr><td>USART1</td><td>PA9</td><td>PA10</td><td>APB2</td><td><code>RCC_APB2Periph_USART1</code></td></tr>
+            <tr><td>USART2</td><td>PA2</td><td>PA3</td><td>APB1</td><td><code>RCC_APB1Periph_USART2</code></td></tr>
+            <tr><td>USART3</td><td>PB10</td><td>PB11</td><td>APB1</td><td><code>RCC_APB1Periph_USART3</code></td></tr>
+        </table>
+
+        <p>下面以 <strong>USART3</strong>（PB10/PB11）为例，演示完整的串口初始化，包含接收中断：</p>
+
+<pre>
+<span class="code-keyword">#include</span> <span class="code-string">"debug.h"</span>
+
+<span class="code-comment">// 声明中断处理函数（WCH专用快速中断属性）</span>
+<span class="code-keyword">void</span> USART3_IRQHandler(<span class="code-keyword">void</span>) __attribute__((interrupt(<span class="code-string">"WCH-Interrupt-fast"</span>)));
+
+<span class="code-keyword">void</span> <span class="code-function">Usart3_Init</span>(<span class="code-keyword">void</span>)
+{
+    GPIO_InitTypeDef  GPIO_InitStructure;
+    USART_InitTypeDef USART_InitStructure;
+    NVIC_InitTypeDef  NVIC_InitStructure;
+
+    <span class="code-comment">/*---------- 第1步：开时钟 ----------*/</span>
+    <span class="code-comment">// USART3 在 APB1 上，GPIO 在 APB2 上</span>
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+
+    <span class="code-comment">/*---------- 第2步：配置GPIO ----------*/</span>
+    <span class="code-comment">// PB10(TX) + PB11(RX) 都配为复用推挽</span>
+    GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_10 | GPIO_Pin_11;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+    <span class="code-comment">/*---------- 第3步：配置USART参数 ----------*/</span>
+    USART_InitStructure.USART_BaudRate            = <span class="code-number">115200</span>;              <span class="code-comment">// 波特率</span>
+    USART_InitStructure.USART_WordLength           = USART_WordLength_8b;   <span class="code-comment">// 8位数据</span>
+    USART_InitStructure.USART_StopBits             = USART_StopBits_1;      <span class="code-comment">// 1位停止位</span>
+    USART_InitStructure.USART_Parity               = USART_Parity_No;       <span class="code-comment">// 无校验</span>
+    USART_InitStructure.USART_HardwareFlowControl  = USART_HardwareFlowControl_None; <span class="code-comment">// 无硬件流控</span>
+    USART_InitStructure.USART_Mode                 = USART_Mode_Tx | USART_Mode_Rx;  <span class="code-comment">// 收发都开</span>
+    USART_Init(USART3, &USART_InitStructure);
+
+    <span class="code-comment">// 使能接收中断</span>
+    USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
+
+    <span class="code-comment">/*---------- 第4步：配置NVIC ----------*/</span>
+    NVIC_InitStructure.NVIC_IRQChannel                   = USART3_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="code-number">1</span>;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority        = <span class="code-number">1</span>;
+    NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+    <span class="code-comment">/*---------- 第5步：使能串口 ----------*/</span>
+    USART_Cmd(USART3, ENABLE);
+}
+</pre>
+
+        <div class="card">
+            <div class="card-title">与8051对比</div>
+            <table>
+                <tr><th>配置项</th><th>8051</th><th>CH32V30x</th></tr>
+                <tr><td>波特率</td><td>手动算 TH1/TL1 重装值</td><td>直接填数字 <code>115200</code></td></tr>
+                <tr><td>引脚</td><td>固定 P3.0/P3.1</td><td>每个USART有独立引脚，还可重映射</td></tr>
+                <tr><td>中断</td><td><code>ES=1; EA=1;</code></td><td>NVIC 分组 + 优先级配置</td></tr>
+                <tr><td>数量</td><td>通常只有1个</td><td>多达5个USART（USART1~5）</td></tr>
+            </table>
+        </div>
+
+        <h3 id="usart-printf">printf 重定向</h3>
+
         <div class="tip">
             <div class="tip-title">💡 好消息</div>
-            <p>你的工程包中 <code>Debug/debug.c</code> 已经实现了printf重定向，直接调用 <code>USART_Printf_Init(115200)</code> 即可使用 <code>printf()</code>！</p>
+            <p>你的工程包中 <code>Debug/debug.c</code> 已经实现了 printf 重定向到 USART1，直接调用 <code>USART_Printf_Init(115200)</code> 即可使用 <code>printf()</code>！</p>
+            <p>这是最快捷的调试串口方案，<strong>一行代码</strong>搞定：</p>
         </div>
 
 <pre>
@@ -1588,7 +1685,7 @@ flowchart LR
     SystemCoreClockUpdate();
     Delay_Init();
 
-    <span class="code-comment">// 一行搞定串口printf</span>
+    <span class="code-comment">// 一行搞定串口printf（USART1, PA9输出）</span>
     <span class="code-function">USART_Printf_Init</span>(<span class="code-number">115200</span>);
 
     printf(<span class="code-string">"Hello CH32V30x!\n"</span>);
@@ -1601,6 +1698,148 @@ flowchart LR
     }
 }
 </pre>
+
+        <div class="card">
+            <div class="card-title">两种串口方案对比</div>
+            <table>
+                <tr><th>方案</th><th>适用场景</th><th>优点</th><th>缺点</th></tr>
+                <tr><td><code>USART_Printf_Init</code></td><td>调试输出</td><td>一行搞定，支持printf</td><td>占用USART1，仅发送</td></tr>
+                <tr><td>手动初始化USART</td><td>与外设通信</td><td>灵活配置，可收可发</td><td>代码量多</td></tr>
+            </table>
+        </div>
+
+        <h3 id="usart-rx">接收处理（中断方式）</h3>
+
+        <p>串口接收推荐使用<strong>中断方式</strong>，每收到一个字节自动触发 <code>USART_IT_RXNE</code> 中断。</p>
+
+        <!-- 接收中断流程图 -->
+        <div class="diagram-container">
+            <div class="diagram-title">串口接收中断流程</div>
+            <div class="mermaid">
+flowchart TB
+    A["外部设备发送数据"] --> B["USART硬件接收"]
+    B --> C{"RXNE标志置位?"}
+    C -->|"是"| D["触发中断<br/>USART3_IRQHandler"]
+    D --> E["USART_ReceiveData<br/>读取数据"]
+    E --> F["处理数据<br/>（存缓冲/执行命令）"]
+    F --> G["清除中断标志"]
+
+    style A fill:#fef3c7,stroke:#f59e0b
+    style D fill:#fee2e2,stroke:#ef4444
+    style E fill:#dbeafe,stroke:#3b82f6
+    style F fill:#dcfce7,stroke:#22c55e
+            </div>
+        </div>
+
+<pre>
+<span class="code-comment">/*==================== 中断处理函数 ====================*/</span>
+<span class="code-keyword">void</span> <span class="code-function">USART3_IRQHandler</span>(<span class="code-keyword">void</span>)
+{
+    u8 temp;
+    <span class="code-keyword">if</span>(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+    {
+        <span class="code-comment">// 读取接收到的数据（同时自动清除RXNE标志）</span>
+        temp = USART_ReceiveData(USART3);
+
+        <span class="code-comment">// 在这里处理接收到的数据</span>
+        <span class="code-comment">// 例如：回显（收到什么就发回什么）</span>
+        USART_SendData(USART3, temp);
+    }
+    <span class="code-comment">// 手动清除中断挂起位，确保不会重复触发</span>
+    USART_ClearITPendingBit(USART3, USART_IT_RXNE);
+}
+</pre>
+
+        <div class="tip">
+            <div class="tip-title">💡 注意事项</div>
+            <p>1. 中断函数名<strong>必须</strong>和启动文件中的向量表一致（如 <code>USART3_IRQHandler</code>），写错就进不了中断。</p>
+            <p>2. 必须加 <code>__attribute__((interrupt("WCH-Interrupt-fast")))</code> 声明，这是 WCH RISC-V 的快速中断要求。</p>
+            <p>3. <code>USART_ReceiveData()</code> 读数据时会自动清除 RXNE 标志，但建议仍调用 <code>USART_ClearITPendingBit()</code> 确保清除。</p>
+        </div>
+
+        <p>下面是完整的<strong>发送+接收</strong>示例，每秒发送字符 'a'，同时通过中断接收数据：</p>
+
+<pre>
+<span class="code-keyword">#include</span> <span class="code-string">"debug.h"</span>
+
+<span class="code-comment">// 中断函数声明</span>
+<span class="code-keyword">void</span> USART3_IRQHandler(<span class="code-keyword">void</span>) __attribute__((interrupt(<span class="code-string">"WCH-Interrupt-fast"</span>)));
+
+<span class="code-keyword">void</span> <span class="code-function">Usart3_Init</span>(<span class="code-keyword">void</span>)
+{
+    GPIO_InitTypeDef  GPIO_InitStructure;
+    USART_InitTypeDef USART_InitStructure;
+    NVIC_InitTypeDef  NVIC_InitStructure;
+
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_10 | GPIO_Pin_11;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+    USART_InitStructure.USART_BaudRate            = <span class="code-number">115200</span>;
+    USART_InitStructure.USART_WordLength           = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits             = USART_StopBits_1;
+    USART_InitStructure.USART_Parity               = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl  = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode                 = USART_Mode_Tx | USART_Mode_Rx;
+    USART_Init(USART3, &USART_InitStructure);
+    USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
+
+    NVIC_InitStructure.NVIC_IRQChannel                   = USART3_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="code-number">1</span>;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority        = <span class="code-number">1</span>;
+    NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+    USART_Cmd(USART3, ENABLE);
+}
+
+<span class="code-comment">/*---------- 接收中断 ----------*/</span>
+<span class="code-keyword">void</span> <span class="code-function">USART3_IRQHandler</span>(<span class="code-keyword">void</span>)
+{
+    u8 temp;
+    <span class="code-keyword">if</span>(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+    {
+        temp = USART_ReceiveData(USART3);
+        <span class="code-comment">// 回显：收到什么发回什么</span>
+        USART_SendData(USART3, temp);
+    }
+    USART_ClearITPendingBit(USART3, USART_IT_RXNE);
+}
+
+<span class="code-comment">/*---------- 主函数 ----------*/</span>
+<span class="code-keyword">int</span> <span class="code-function">main</span>(<span class="code-keyword">void</span>)
+{
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
+    Delay_Init();
+    Usart3_Init();
+
+    <span class="code-keyword">while</span>(<span class="code-number">1</span>)
+    {
+        <span class="code-comment">// 每秒发送一个字符 'a'</span>
+        USART_SendData(USART3, <span class="code-string">'a'</span>);
+        Delay_Ms(<span class="code-number">1000</span>);
+    }
+}
+</pre>
+
+        <div class="card">
+            <div class="card-title">USART 常用 API 速查</div>
+            <table>
+                <tr><th>功能</th><th>函数</th></tr>
+                <tr><td>初始化</td><td><code>USART_Init(USARTx, &InitStruct)</code></td></tr>
+                <tr><td>使能串口</td><td><code>USART_Cmd(USARTx, ENABLE)</code></td></tr>
+                <tr><td>发送一字节</td><td><code>USART_SendData(USARTx, data)</code></td></tr>
+                <tr><td>接收一字节</td><td><code>USART_ReceiveData(USARTx)</code></td></tr>
+                <tr><td>使能中断</td><td><code>USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE)</code></td></tr>
+                <tr><td>查中断状态</td><td><code>USART_GetITStatus(USARTx, USART_IT_RXNE)</code></td></tr>
+                <tr><td>清中断标志</td><td><code>USART_ClearITPendingBit(USARTx, USART_IT_RXNE)</code></td></tr>
+            </table>
+        </div>
 
         <!-- 第六章 -->
         <h2 id="chapter6">第六章 综合项目</h2>
@@ -1783,6 +2022,19 @@ flowchart TB
             <tr><td>清除中断标志</td><td><code>TIM_ClearITPendingBit(TIMx, TIM_IT_Update)</code></td></tr>
         </table>
 
+        <h4>USART</h4>
+        <table>
+            <tr><th>功能</th><th>函数</th></tr>
+            <tr><td>初始化</td><td><code>USART_Init(USARTx, &InitStruct)</code></td></tr>
+            <tr><td>使能串口</td><td><code>USART_Cmd(USARTx, ENABLE)</code></td></tr>
+            <tr><td>发送一字节</td><td><code>USART_SendData(USARTx, data)</code></td></tr>
+            <tr><td>接收一字节</td><td><code>USART_ReceiveData(USARTx)</code></td></tr>
+            <tr><td>使能中断</td><td><code>USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE)</code></td></tr>
+            <tr><td>查中断状态</td><td><code>USART_GetITStatus(USARTx, USART_IT_RXNE)</code></td></tr>
+            <tr><td>清中断标志</td><td><code>USART_ClearITPendingBit(USARTx, USART_IT_RXNE)</code></td></tr>
+            <tr><td>快捷printf初始化</td><td><code>USART_Printf_Init(baud)</code> (仅USART1)</td></tr>
+        </table>
+
         <h3 id="troubleshooting">常见问题排查</h3>
 
         <!-- 问题排查流程图 -->
@@ -1834,6 +2086,20 @@ flowchart TB
                 <li>是否调用了 <code>USART_Printf_Init(115200)</code>？</li>
                 <li>串口波特率是否匹配？</li>
                 <li>TX引脚接线是否正确？(默认PA9)</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <div class="card-title">❌ 问题4：串口收不到数据</div>
+            <p><strong>检查清单</strong>：</p>
+            <ol>
+                <li>USART 和 GPIO 时钟都开了吗？（注意 USART1 在 APB2，USART2~5 在 APB1）</li>
+                <li>GPIO 模式是否设为 <code>GPIO_Mode_AF_PP</code>（复用推挽）？</li>
+                <li>是否使能了接收中断 <code>USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE)</code>？</li>
+                <li>NVIC 是否配置？中断通道号是否正确（如 <code>USART3_IRQn</code>）？</li>
+                <li>中断函数名是否与向量表一致？是否添加了 <code>__attribute__((interrupt("WCH-Interrupt-fast")))</code>？</li>
+                <li>是否调用了 <code>USART_Cmd(USARTx, ENABLE)</code> 使能串口？</li>
+                <li>TX/RX 接线是否交叉连接？（MCU的TX接对方RX，反之亦然）</li>
             </ol>
         </div>
 
