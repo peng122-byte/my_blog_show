@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="蓝桥杯第十二届省赛单片机真题刷题总结：DS18B20温度采集与DAC输出系统，涵盖线性插值、整数溢出防护等知识点">
+<title>蓝桥杯第十二届省赛单片机真题(第一场) — 刷题总结</title>
+
+<link rel='canonical' href='https://kun123.xyz/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E5%B1%8A%E7%9C%81%E8%B5%9B%E5%8D%95%E7%89%87%E6%9C%BA%E7%9C%9F%E9%A2%98%E7%AC%AC%E4%B8%80%E5%9C%BA-%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/'>
+
+<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="蓝桥杯第十二届省赛单片机真题(第一场) — 刷题总结">
+<meta property='og:description' content="蓝桥杯第十二届省赛单片机真题刷题总结：DS18B20温度采集与DAC输出系统，涵盖线性插值、整数溢出防护等知识点">
+<meta property='og:url' content='https://kun123.xyz/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E5%B1%8A%E7%9C%81%E8%B5%9B%E5%8D%95%E7%89%87%E6%9C%BA%E7%9C%9F%E9%A2%98%E7%AC%AC%E4%B8%80%E5%9C%BA-%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/'>
+<meta property='og:site_name' content='鲲的琴盒'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='蓝桥杯' /><meta property='article:tag' content='单片机' /><meta property='article:tag' content='省赛真题' /><meta property='article:tag' content='DS18B20' /><meta property='article:tag' content='PCF8591' /><meta property='article:tag' content='DAC' /><meta property='article:published_time' content='2026-03-06T18:25:00&#43;08:00'/><meta property='article:modified_time' content='2026-03-06T18:25:00&#43;08:00'/>
+<meta name="twitter:title" content="蓝桥杯第十二届省赛单片机真题(第一场) — 刷题总结">
+<meta name="twitter:description" content="蓝桥杯第十二届省赛单片机真题刷题总结：DS18B20温度采集与DAC输出系统，涵盖线性插值、整数溢出防护等知识点">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_1282dd7466320a53.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">鲲的琴盒</a></h1>
+            <h2 class="site-description">zhangkun_peng@foxmail.com | zhangkun_peng@outlook.com</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/520865862'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/>
+  <path d="M7 3l2 2"/>
+  <path d="M17 3l-2 2"/>
+  <circle cx="9" cy="12" r="1"/>
+  <circle cx="15" cy="12" r="1"/>
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/peng122-byte'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://kun123.xyz/" selected>简体中文</option>
+                                
+                                    <option value="https://kun123.xyz/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一题目概述">一、题目概述</a></li>
+    <li><a href="#二功能模块实现">二、功能模块实现</a>
+      <ol>
+        <li><a href="#21-数码管显示3个界面s4-切换">2.1 数码管显示（3个界面，S4 切换）</a></li>
+        <li><a href="#22-按键功能">2.2 按键功能</a></li>
+        <li><a href="#23-dac输出模式">2.3 DAC输出模式</a></li>
+        <li><a href="#24-led-指示">2.4 LED 指示</a></li>
+      </ol>
+    </li>
+    <li><a href="#三踩坑记录重点">三、踩坑记录（重点）</a>
+      <ol>
+        <li><a href="#踩坑1模式2线性插值--整数除法导致精度丢失">踩坑1：模式2线性插值 — 整数除法导致精度丢失</a></li>
+        <li><a href="#踩坑2模式2线性插值--中间乘法溢出">踩坑2：模式2线性插值 — 中间乘法溢出</a></li>
+        <li><a href="#踩坑3模式2分支不完整--缺少-t--40c-和边界条件">踩坑3：模式2分支不完整 — 缺少 T ≥ 40°C 和边界条件</a></li>
+      </ol>
+    </li>
+    <li><a href="#四核心知识点线性插值在单片机中的实现">四、核心知识点：线性插值在单片机中的实现</a>
+      <ol>
+        <li><a href="#41-数学公式">4.1 数学公式</a></li>
+        <li><a href="#42-单片机整数化三步法">4.2 单片机整数化三步法</a></li>
+        <li><a href="#43-验证表">4.3 验证表</a></li>
+      </ol>
+    </li>
+    <li><a href="#五通用经验总结">五、通用经验总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%8D%95%E7%89%87%E6%9C%BA/" style="background-color: hsl(229, 60%, 84%); color: hsl(229, 60%, 15%);">
+                蓝桥杯单片机
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E5%B1%8A%E7%9C%81%E8%B5%9B%E5%8D%95%E7%89%87%E6%9C%BA%E7%9C%9F%E9%A2%98%E7%AC%AC%E4%B8%80%E5%9C%BA-%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">蓝桥杯第十二届省赛单片机真题(第一场) — 刷题总结</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            蓝桥杯第十二届省赛单片机真题刷题总结：DS18B20温度采集与DAC输出系统，涵盖线性插值、整数溢出防护等知识点
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published" datetime='2026-03-06T18:25:00&#43;08:00'>Mar 06, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="一题目概述">一、题目概述
+</h2><p>基于 STC15F2K60S2 单片机（12MHz），实现一个 <strong>DS18B20温度采集与DAC输出系统</strong>，包含：</p>
+<ul>
+<li>DS18B20 温度采集与显示</li>
+<li>温度参数设置（整数，默认25°C）</li>
+<li>两种 DAC 输出模式（S5切换）</li>
+<li>PCF8591 AD回读DAC输出电压</li>
+<li>LED 指示当前模式/界面</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/peng122-byte/my-images@main/img/2025/09/14/image-20260306155907353.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="题目示意图"
+	
+	
+></p>
+<hr>
+<h2 id="二功能模块实现">二、功能模块实现
+</h2><h3 id="21-数码管显示3个界面s4-切换">2.1 数码管显示（3个界面，S4 切换）
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>界面</th>
+          <th>首位标识</th>
+          <th>显示内容</th>
+          <th>格式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td><code>C</code> (11)</td>
+          <td>实时温度</td>
+          <td><code>C    XX.XX</code></td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td><code>P</code> (12)</td>
+          <td>温度参数设置</td>
+          <td><code>P      XX</code></td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td><code>A</code> (13)</td>
+          <td>DAC输出电压回读</td>
+          <td><code>A    X.XX</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="22-按键功能">2.2 按键功能
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>按键</th>
+          <th>功能</th>
+          <th>有效界面</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>S4</td>
+          <td>切换界面(0→1→2→0)</td>
+          <td>全局</td>
+      </tr>
+      <tr>
+          <td>S5</td>
+          <td>切换DAC模式(模式1↔模式2)</td>
+          <td>全局</td>
+      </tr>
+      <tr>
+          <td>S8</td>
+          <td>温度参数-1</td>
+          <td>界面1(参数设置)</td>
+      </tr>
+      <tr>
+          <td>S9</td>
+          <td>温度参数+1</td>
+          <td>界面1(参数设置)</td>
+      </tr>
+  </tbody>
+</table></div>
+<p>关键逻辑：<strong>退出参数设置界面时</strong>温度参数才生效。</p>
+<h3 id="23-dac输出模式">2.3 DAC输出模式
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>模式</th>
+          <th>规则</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>模式1</td>
+          <td>T &lt; 参数 → 0V；T &gt;= 参数 → 5V</td>
+      </tr>
+      <tr>
+          <td>模式2</td>
+          <td>T ≤ 20°C → 1.0V；20<del>40°C线性1.0</del>4.0V；T ≥ 40°C → 4.0V</td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="24-led-指示">2.4 LED 指示
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>LED</th>
+          <th>条件</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>L1</td>
+          <td>模式1</td>
+      </tr>
+      <tr>
+          <td>L2</td>
+          <td>温度显示界面</td>
+      </tr>
+      <tr>
+          <td>L3</td>
+          <td>参数设置界面</td>
+      </tr>
+      <tr>
+          <td>L4</td>
+          <td>DAC输出界面</td>
+      </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="三踩坑记录重点">三、踩坑记录（重点）
+</h2><h3 id="踩坑1模式2线性插值--整数除法导致精度丢失">踩坑1：模式2线性插值 — 整数除法导致精度丢失
+</h3><p><strong>错误代码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">Da_1000x</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">Temperature_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>  <span class="c1">// 电压×1000
+</span></span></span><span class="line"><span class="cl"><span class="nf">Da_Write</span><span class="p">(</span><span class="n">Da_1000x</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">51</span><span class="p">);</span>                 <span class="c1">// 转DAC值
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>问题：</strong> <code>Da_1000x / 1000</code> 是整数除法，直接截断小数部分。</p>
+<p>例如 T=30°C：<code>Da_1000x = 2500</code>，<code>2500 / 1000 = 2</code>（丢掉了0.5），<code>2 * 51 = 102</code>（≈2.0V），实际应输出2.5V（DAC=127）。</p>
+<p><strong>修复：</strong> 不要先算电压再转DAC，而是<strong>直接计算DAC值</strong>，把乘法放在除法前面：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">DAC_data</span> <span class="o">=</span> <span class="mi">51</span> <span class="o">+</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="n">Temperature_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">153</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">Da_Write</span><span class="p">(</span><span class="n">DAC_data</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>公式推导：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">V = 1.0 + (T - 20) × 3.0 / 20.0
+</span></span><span class="line"><span class="cl">DAC = V × 51 = 51 + (T - 20) × 153 / 20
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">用 Temperature_100x 替换 T（放大100倍）：
+</span></span><span class="line"><span class="cl">DAC = 51 + (Temperature_100x - 2000) × 153 / 2000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>教训：整数运算中，乘法放前面、除法放后面，避免中间过程被截断丢失精度。</strong></p>
+</blockquote>
+<hr>
+<h3 id="踩坑2模式2线性插值--中间乘法溢出">踩坑2：模式2线性插值 — 中间乘法溢出
+</h3><p><strong>问题代码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">DAC_data</span> <span class="o">=</span> <span class="mi">51</span> <span class="o">+</span> <span class="p">(</span><span class="n">Temperature_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">153</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>问题：</strong> <code>(Temperature_100x - 2000) * 153</code> 最大值为 <code>1999 × 153 = 305,847</code>，而 <code>unsigned int</code> 最大值为 65,535，<strong>溢出</strong>。</p>
+<p><strong>修复：</strong> 在乘法之前将其中一个操作数强转为 <code>unsigned long</code>（32位）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">DAC_data</span> <span class="o">=</span> <span class="mi">51</span> <span class="o">+</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="n">Temperature_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">153</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>原理：</strong> C语言规则 — 两个操作数类型不同时，窄类型自动提升为宽类型。<code>unsigned long × int</code> → 整个乘法在32位下进行。</p>
+<p><strong>注意转换位置：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 正确：先转再乘，乘法在32位下进行
+</span></span></span><span class="line"><span class="cl"><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="n">Temperature_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">153</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 错误：先乘后转，括号内乘法仍在16位下溢出，转了也救不回来
+</span></span></span><span class="line"><span class="cl"><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)((</span><span class="n">Temperature_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">153</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>教训：中间产物的类型由参与运算的操作数中最宽的类型决定。类型转换必须放在溢出发生之前（乘法之前），而不是之后。</strong></p>
+</blockquote>
+<hr>
+<h3 id="踩坑3模式2分支不完整--缺少-t--40c-和边界条件">踩坑3：模式2分支不完整 — 缺少 T ≥ 40°C 和边界条件
+</h3><p><strong>错误代码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">Temperature_100x</span> <span class="o">&lt;</span> <span class="mi">2000</span><span class="p">)</span> <span class="nf">Da_Write</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">51</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">((</span><span class="n">Temperature_100x</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">Temperature_100x</span> <span class="o">&lt;</span> <span class="mi">4000</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 线性区间...
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 缺少 T &gt;= 40°C 的分支！
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>问题：</strong></p>
+<ol>
+<li>T ≥ 40°C 时没有任何输出，DAC保持上次的值</li>
+<li>T = 20°C（恰好2000）时，<code>&lt; 2000</code> 和 <code>&gt; 2000</code> 都不匹配，落入空白区</li>
+</ol>
+<p><strong>修复：</strong> 用 <code>if-else if-else</code> 三段互斥结构，边界用 <code>&lt;=</code> 和 <code>&gt;=</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">Temperature_100x</span> <span class="o">&lt;=</span> <span class="mi">2000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">Da_Write</span><span class="p">(</span><span class="mi">51</span><span class="p">);</span>        <span class="c1">// T ≤ 20°C：1.0V
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">Temperature_100x</span> <span class="o">&gt;=</span> <span class="mi">4000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">Da_Write</span><span class="p">(</span><span class="mi">204</span><span class="p">);</span>       <span class="c1">// T ≥ 40°C：4.0V
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 20°C &lt; T &lt; 40°C：线性插值
+</span></span></span><span class="line"><span class="cl">    <span class="n">DAC_data</span> <span class="o">=</span> <span class="mi">51</span> <span class="o">+</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="n">Temperature_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">153</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">Da_Write</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)</span><span class="n">DAC_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>教训：分段函数必须用 <code>if-else if-else</code> 保证互斥且无遗漏，边界值要明确归属。</strong></p>
+</blockquote>
+<hr>
+<h2 id="四核心知识点线性插值在单片机中的实现">四、核心知识点：线性插值在单片机中的实现
+</h2><h3 id="41-数学公式">4.1 数学公式
+</h3><p>已知两端点 <code>(T_A, V_A)</code> 和 <code>(T_B, V_B)</code>，求中间任意点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">V = V_A + (T - T_A) × (V_B - V_A) / (T_B - T_A)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本题：<code>(20°C, 1.0V)</code> → <code>(40°C, 4.0V)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">V = 1.0 + (T - 20) × 3.0 / 20.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="42-单片机整数化三步法">4.2 单片机整数化三步法
+</h3><p><strong>第一步：目标量直接化</strong>
+不要先算电压再转DAC，直接算最终需要的DAC值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">DAC = V × 51 = 51 + (T - 20) × 153 / 20
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>第二步：变量放大对齐</strong>
+代码中温度放大了100倍，分母同步放大：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">DAC = 51 + (T_100x - 2000) × 153 / 2000
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>第三步：防溢出类型提升</strong>
+中间产物最大 305,847 &gt; 65,535，在乘法前强转32位：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">DAC</span> <span class="o">=</span> <span class="mi">51</span> <span class="o">+</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)(</span><span class="n">T_100x</span> <span class="o">-</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">*</span> <span class="mi">153</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="43-验证表">4.3 验证表
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>温度</th>
+          <th>T_100x</th>
+          <th>DAC计算</th>
+          <th>DAC值</th>
+          <th>电压</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>20°C</td>
+          <td>2000</td>
+          <td>≤2000 → 51</td>
+          <td>51</td>
+          <td>1.0V</td>
+      </tr>
+      <tr>
+          <td>25°C</td>
+          <td>2500</td>
+          <td>51+500×153/2000</td>
+          <td>89</td>
+          <td>1.75V</td>
+      </tr>
+      <tr>
+          <td>30°C</td>
+          <td>3000</td>
+          <td>51+1000×153/2000</td>
+          <td>127</td>
+          <td>2.49V</td>
+      </tr>
+      <tr>
+          <td>35°C</td>
+          <td>3500</td>
+          <td>51+1500×153/2000</td>
+          <td>165</td>
+          <td>3.24V</td>
+      </tr>
+      <tr>
+          <td>40°C</td>
+          <td>4000</td>
+          <td>≥4000 → 204</td>
+          <td>204</td>
+          <td>4.0V</td>
+      </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="五通用经验总结">五、通用经验总结
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>编号</th>
+          <th>经验</th>
+          <th>适用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>整数运算中先乘后除，避免中间截断丢精度</td>
+          <td>所有需要保留精度的整数计算</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>中间产物可能溢出时，在乘法<strong>之前</strong>强转宽类型</td>
+          <td><code>unsigned int</code> 乘积 &gt; 65535 的场景</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>类型转换位置决定一切：转在括号外 vs 括号内效果完全不同</td>
+          <td>所有涉及类型提升的表达式</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>分段函数用 <code>if-else if-else</code>，边界用 <code>&lt;=</code>/<code>&gt;=</code> 明确归属</td>
+          <td>DAC分段输出、阈值判断</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td>线性插值单片机实现：直接算目标量 → 变量放大对齐 → 防溢出提升</td>
+          <td>PCF8591 DAC、PWM占空比等线性映射</td>
+      </tr>
+  </tbody>
+</table></div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/">蓝桥杯</a>
+        
+            <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/">单片机</a>
+        
+            <a href="/tags/%E7%9C%81%E8%B5%9B%E7%9C%9F%E9%A2%98/">省赛真题</a>
+        
+            <a href="/tags/ds18b20/">DS18B20</a>
+        
+            <a href="/tags/pcf8591/">PCF8591</a>
+        
+            <a href="/tags/dac/">DAC</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%AC%AC%E5%8D%81%E4%B8%80%E5%B1%8A%E7%9C%81%E8%B5%9B%E5%8D%95%E7%89%87%E6%9C%BA%E7%9C%9F%E9%A2%98-%E5%88%B7%E9%A2%98%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">蓝桥杯第十一届省赛单片机真题 — 刷题总结</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%93%E6%A0%8F-%E5%A4%87%E8%B5%9B%E6%8C%87%E5%8D%97%E4%B8%8E%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">蓝桥杯单片机专栏 - 备赛指南与知识总结</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2026 Kun
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://beian.miit.gov.cn/" target="_blank">赣ICP备2026003187号-1</a> <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.1">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.c922af694cc257bf1ecc41c0dd7b0430f9114ec280ccf67cd2c6ad55f5316c4e.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

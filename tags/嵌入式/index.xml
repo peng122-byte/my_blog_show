@@ -7,7 +7,68 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Kun</copyright>
-        <lastBuildDate>Fri, 27 Feb 2026 21:00:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 06 Mar 2026 18:12:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>蓝桥杯单片机专栏 - 备赛指南与知识总结</title>
+        <link>https://kun123.xyz/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%93%E6%A0%8F-%E5%A4%87%E8%B5%9B%E6%8C%87%E5%8D%97%E4%B8%8E%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</link>
+        <pubDate>Fri, 06 Mar 2026 18:12:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%93%E6%A0%8F-%E5%A4%87%E8%B5%9B%E6%8C%87%E5%8D%97%E4%B8%8E%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</guid>
+        <description>&lt;h2 id=&#34;专栏简介&#34;&gt;专栏简介
+&lt;/h2&gt;&lt;p&gt;本专栏是蓝桥杯单片机设计与开发竞赛的备赛资料合集，基于 &lt;strong&gt;CT107D 开发板&lt;/strong&gt;（IAP15F2K61S2 单片机）。&lt;/p&gt;
+&lt;p&gt;内容将涵盖以下模块：&lt;/p&gt;
+&lt;h3 id=&#34;基础模块&#34;&gt;基础模块
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;LED 灯控制&lt;/li&gt;
+&lt;li&gt;独立按键与矩阵键盘&lt;/li&gt;
+&lt;li&gt;数码管显示（静态/动态）&lt;/li&gt;
+&lt;li&gt;定时器与中断系统&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;扩展模块&#34;&gt;扩展模块
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;DS1302 实时时钟&lt;/li&gt;
+&lt;li&gt;DS18B20 温度传感器&lt;/li&gt;
+&lt;li&gt;PCF8591 ADC/DAC&lt;/li&gt;
+&lt;li&gt;AT24C02 EEPROM 存储&lt;/li&gt;
+&lt;li&gt;超声波测距模块&lt;/li&gt;
+&lt;li&gt;NE555 频率测量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;综合实战&#34;&gt;综合实战
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;串口通信 (UART)&lt;/li&gt;
+&lt;li&gt;PWM 输出控制&lt;/li&gt;
+&lt;li&gt;历年省赛/国赛真题解析&lt;/li&gt;
+&lt;li&gt;竞赛代码模板与技巧&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;历年真题刷题总结&#34;&gt;历年真题刷题总结
+&lt;/h2&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;届次&lt;/th&gt;
+          &lt;th&gt;题目方向&lt;/th&gt;
+          &lt;th&gt;文章链接&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;第十一届省赛&lt;/td&gt;
+          &lt;td&gt;电压监测与统计系统（ADC + AT24C02）&lt;/td&gt;
+          &lt;td&gt;&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/lanqiao-mcu-11th-provincial/&#34; &gt;刷题总结&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;第十二届省赛(一)&lt;/td&gt;
+          &lt;td&gt;DS18B20温度采集与DAC输出&lt;/td&gt;
+          &lt;td&gt;&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/lanqiao-mcu-12th-provincial/&#34; &gt;刷题总结&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;持续更新中，敬请关注！&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
         <title>STM32 时钟树完全学习指南</title>
         <link>https://kun123.xyz/p/stm32-%E6%97%B6%E9%92%9F%E6%A0%91%E5%AE%8C%E5%85%A8%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/</link>
         <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>

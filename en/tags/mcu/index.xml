@@ -7,7 +7,45 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>Kun</copyright>
-        <lastBuildDate>Fri, 27 Feb 2026 21:00:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/en/tags/mcu/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 06 Mar 2026 18:12:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/en/tags/mcu/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Blue Bridge Cup MCU Column - Competition Preparation Guide</title>
+        <link>https://kun123.xyz/en/p/blue-bridge-cup-mcu-column-competition-preparation-guide/</link>
+        <pubDate>Fri, 06 Mar 2026 18:12:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/en/p/blue-bridge-cup-mcu-column-competition-preparation-guide/</guid>
+        <description>&lt;h2 id=&#34;column-introduction&#34;&gt;Column Introduction
+&lt;/h2&gt;&lt;p&gt;This column is a collection of preparation materials for the Blue Bridge Cup MCU Design and Development Competition, based on the &lt;strong&gt;CT107D development board&lt;/strong&gt; (IAP15F2K61S2 MCU).&lt;/p&gt;
+&lt;p&gt;The content covers the following modules:&lt;/p&gt;
+&lt;h3 id=&#34;basic-modules&#34;&gt;Basic Modules
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;LED control&lt;/li&gt;
+&lt;li&gt;Independent buttons &amp;amp; matrix keyboard&lt;/li&gt;
+&lt;li&gt;Digital tube display (static/dynamic)&lt;/li&gt;
+&lt;li&gt;Timer &amp;amp; interrupt system&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;extended-modules&#34;&gt;Extended Modules
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;DS1302 Real-time clock&lt;/li&gt;
+&lt;li&gt;DS18B20 Temperature sensor&lt;/li&gt;
+&lt;li&gt;PCF8591 ADC/DAC&lt;/li&gt;
+&lt;li&gt;AT24C02 EEPROM storage&lt;/li&gt;
+&lt;li&gt;Ultrasonic ranging module&lt;/li&gt;
+&lt;li&gt;NE555 Frequency measurement&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;comprehensive-practice&#34;&gt;Comprehensive Practice
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;UART serial communication&lt;/li&gt;
+&lt;li&gt;PWM output control&lt;/li&gt;
+&lt;li&gt;Past provincial/national exam analysis&lt;/li&gt;
+&lt;li&gt;Competition code templates &amp;amp; tips&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Continuously updated, stay tuned!&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
         <title>STM32 Clock Tree Complete Guide</title>
         <link>https://kun123.xyz/en/p/stm32-clock-tree-complete-guide/</link>
         <pubDate>Fri, 27 Feb 2026 21:00:00 +0800</pubDate>
