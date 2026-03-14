@@ -1265,358 +1265,236 @@ P1_0 = 0;  // 或 P1 &= ~0x01;
             <div class="subsection" id="gpio">
                 <h3 class="subsection-title">1.3 GPIO工作模式</h3>
 
-                <h4 style="margin: 0 0 1rem; color: var(--primary);">输出模式（通信必备）</h4>
+                <p>GPIO（通用输入输出）引脚通常有 <strong>8 种工作模式</strong>，这些模式决定了引脚如何与外部电路进行交互。它们可以分为四大类：<strong>输入模式</strong>、<strong>输出模式</strong>、<strong>复用功能模式</strong>和<strong>模拟模式</strong>。</p>
 
-                <!-- 美化的推挽/开漏输出对比图 -->
+                <!-- 四大类概览 -->
+                <div class="comparison-diagram" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="comparison-card">
+                        <h4>📥 输入模式</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">引脚用于读取外部信号<br><br>
+                            • 浮空输入<br>
+                            • 上拉输入<br>
+                            • 下拉输入
+                        </p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>📤 输出模式</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">引脚主动驱动电平<br><br>
+                            • 推挽输出<br>
+                            • 开漏输出
+                        </p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>🔀 复用功能模式</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">引脚由片上外设控制<br><br>
+                            • 复用推挽输出<br>
+                            • 复用开漏输出
+                        </p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>〰️ 模拟模式</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">引脚直接连接 ADC/DAC<br><br>
+                            • 模拟输入/输出
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 输入模式详解 -->
+                <h4 style="margin: 1.5rem 0 0.8rem; color: var(--primary);">一、输入模式（3 种）</h4>
                 <div class="comparison-diagram">
-                    <!-- 推挽输出卡片 -->
+                    <div class="comparison-card">
+                        <h4>① 浮空输入</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">
+                            引脚内部既无上拉也无下拉电阻，电平完全由外部电路决定。<br><br>
+                            ⚠️ 若引脚悬空，读取值不确定（易受干扰）。<br><br>
+                            <strong>典型应用：</strong>UART RX、外部已有确定电平驱动时
+                        </p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>② 上拉输入</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">
+                            内部接上拉电阻到 VDD，默认读取高电平 <span class="level-indicator level-high">1</span>。<br><br>
+                            按键按下接地 → 读到 <span class="level-indicator level-low">0</span>。<br><br>
+                            <strong>典型应用：</strong>按键输入、I²C SDA/SCL
+                        </p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>③ 下拉输入</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">
+                            内部接下拉电阻到 GND，默认读取低电平 <span class="level-indicator level-low">0</span>。<br><br>
+                            外部驱动高电平 → 读到 <span class="level-indicator level-high">1</span>。<br><br>
+                            <strong>典型应用：</strong>确保引脚空闲时保持低电平
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 输出模式详解 -->
+                <h4 style="margin: 1.5rem 0 0.8rem; color: var(--primary);">二、输出模式（2 种）</h4>
+                <div class="comparison-diagram">
                     <div class="comparison-card">
                         <h4>⚡ 推挽输出（Push-Pull）</h4>
                         <div class="card-svg">
-                            <svg width="220" height="280" viewBox="0 0 220 280">
+                            <svg width="220" height="200" viewBox="0 0 220 200">
                                 <defs>
-                                    <linearGradient id="vddGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <linearGradient id="ppVdd" x1="0%" y1="0%" x2="0%" y2="100%">
                                         <stop offset="0%" style="stop-color:#ef4444"/>
                                         <stop offset="100%" style="stop-color:#dc2626"/>
                                     </linearGradient>
-                                    <linearGradient id="gndGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <linearGradient id="ppGnd" x1="0%" y1="0%" x2="0%" y2="100%">
                                         <stop offset="0%" style="stop-color:#3b82f6"/>
                                         <stop offset="100%" style="stop-color:#2563eb"/>
                                     </linearGradient>
-                                    <linearGradient id="mosGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <linearGradient id="ppMos" x1="0%" y1="0%" x2="0%" y2="100%">
                                         <stop offset="0%" style="stop-color:#8b5cf6"/>
                                         <stop offset="100%" style="stop-color:#7c3aed"/>
                                     </linearGradient>
-                                    <filter id="glow">
-                                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                                        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                                    </filter>
                                 </defs>
-                                <rect width="220" height="280" fill="#0f172a" rx="8"/>
-
-                                <!-- VDD标签 -->
-                                <rect x="80" y="15" width="60" height="24" rx="4" fill="url(#vddGrad)"/>
-                                <text x="110" y="32" fill="white" font-size="12" font-weight="bold" text-anchor="middle">VDD 5V</text>
-
-                                <!-- 垂直连线 -->
-                                <line x1="110" y1="39" x2="110" y2="60" stroke="#ef4444" stroke-width="3"/>
-
-                                <!-- P-MOS -->
-                                <rect x="70" y="60" width="80" height="36" rx="6" fill="url(#mosGrad)" filter="url(#glow)"/>
-                                <text x="110" y="82" fill="white" font-size="11" font-weight="bold" text-anchor="middle">P-MOS</text>
-                                <!-- 控制箭头 -->
-                                <path d="M 160 78 L 175 78" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
-                                <text x="178" y="82" fill="#94a3b8" font-size="9">控制</text>
-
-                                <!-- 连线到输出 -->
-                                <line x1="110" y1="96" x2="110" y2="125" stroke="#64748b" stroke-width="3"/>
-
-                                <!-- 输出引脚 -->
-                                <line x1="40" y1="140" x2="180" y2="140" stroke="#22c55e" stroke-width="4" filter="url(#glow)"/>
-                                <circle cx="110" cy="140" r="8" fill="#22c55e"/>
-                                <text x="185" y="144" fill="#22c55e" font-size="11" font-weight="bold">OUT</text>
-
-                                <!-- 连线到N-MOS -->
-                                <line x1="110" y1="155" x2="110" y2="180" stroke="#64748b" stroke-width="3"/>
-
-                                <!-- N-MOS -->
-                                <rect x="70" y="180" width="80" height="36" rx="6" fill="url(#mosGrad)" filter="url(#glow)"/>
-                                <text x="110" y="202" fill="white" font-size="11" font-weight="bold" text-anchor="middle">N-MOS</text>
-                                <!-- 控制箭头 -->
-                                <path d="M 160 198 L 175 198" stroke="#94a3b8" stroke-width="2"/>
-                                <text x="178" y="202" fill="#94a3b8" font-size="9">控制</text>
-
-                                <!-- 连线到GND -->
-                                <line x1="110" y1="216" x2="110" y2="240" stroke="#3b82f6" stroke-width="3"/>
-
-                                <!-- GND标签 -->
-                                <rect x="80" y="240" width="60" height="24" rx="4" fill="url(#gndGrad)"/>
-                                <text x="110" y="257" fill="white" font-size="12" font-weight="bold" text-anchor="middle">GND</text>
+                                <rect width="220" height="200" fill="#0f172a" rx="8"/>
+                                <rect x="80" y="10" width="60" height="22" rx="4" fill="url(#ppVdd)"/>
+                                <text x="110" y="25" fill="white" font-size="11" font-weight="bold" text-anchor="middle">VDD</text>
+                                <line x1="110" y1="32" x2="110" y2="52" stroke="#ef4444" stroke-width="3"/>
+                                <rect x="70" y="52" width="80" height="30" rx="6" fill="url(#ppMos)"/>
+                                <text x="110" y="71" fill="white" font-size="11" font-weight="bold" text-anchor="middle">P-MOS</text>
+                                <line x1="110" y1="82" x2="110" y2="100" stroke="#64748b" stroke-width="3"/>
+                                <line x1="40" y1="108" x2="180" y2="108" stroke="#22c55e" stroke-width="4"/>
+                                <circle cx="110" cy="108" r="7" fill="#22c55e"/>
+                                <text x="185" y="112" fill="#22c55e" font-size="11" font-weight="bold">OUT</text>
+                                <line x1="110" y1="115" x2="110" y2="133" stroke="#64748b" stroke-width="3"/>
+                                <rect x="70" y="133" width="80" height="30" rx="6" fill="url(#ppMos)"/>
+                                <text x="110" y="152" fill="white" font-size="11" font-weight="bold" text-anchor="middle">N-MOS</text>
+                                <line x1="110" y1="163" x2="110" y2="178" stroke="#3b82f6" stroke-width="3"/>
+                                <rect x="80" y="178" width="60" height="18" rx="4" fill="url(#ppGnd)"/>
+                                <text x="110" y="191" fill="white" font-size="11" font-weight="bold" text-anchor="middle">GND</text>
                             </svg>
                         </div>
-                        <div class="card-desc" style="font-size: 0.85rem;">
-                            <p><strong style="color: #22c55e;">输出 1：</strong>P-MOS 导通 → 5V</p>
-                            <p><strong style="color: #3b82f6;">输出 0：</strong>N-MOS 导通 → 0V</p>
-                        </div>
+                        <p class="card-desc" style="font-size:0.85rem;">
+                            P-MOS + N-MOS 互补驱动，可主动输出高/低电平。<br>
+                            <strong style="color:#22c55e;">输出1：</strong>P-MOS 导通 → VDD<br>
+                            <strong style="color:#3b82f6;">输出0：</strong>N-MOS 导通 → GND<br>
+                            <strong>适用：</strong>LED 驱动、UART TX、SPI
+                        </p>
                     </div>
-
-                    <!-- 开漏输出卡片 -->
                     <div class="comparison-card">
                         <h4>🔓 开漏输出（Open-Drain）</h4>
                         <div class="card-svg">
-                            <svg width="220" height="280" viewBox="0 0 220 280">
-                                <rect width="220" height="280" fill="#0f172a" rx="8"/>
-
-                                <!-- VDD标签 -->
-                                <rect x="80" y="15" width="60" height="24" rx="4" fill="url(#vddGrad)"/>
-                                <text x="110" y="32" fill="white" font-size="12" font-weight="bold" text-anchor="middle">VDD 5V</text>
-
-                                <!-- 连线 -->
-                                <line x1="110" y1="39" x2="110" y2="55" stroke="#ef4444" stroke-width="3"/>
-
-                                <!-- 上拉电阻（关键差异！） -->
-                                <rect x="95" y="55" width="30" height="50" rx="4" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2"/>
-                                <text x="110" y="82" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">R</text>
-                                <text x="145" y="75" fill="#f59e0b" font-size="8">外部</text>
-                                <text x="145" y="85" fill="#f59e0b" font-size="8">上拉</text>
-
-                                <!-- 连线到输出 -->
-                                <line x1="110" y1="105" x2="110" y2="125" stroke="#64748b" stroke-width="3"/>
-
-                                <!-- 输出引脚 -->
-                                <line x1="40" y1="140" x2="180" y2="140" stroke="#22c55e" stroke-width="4" filter="url(#glow)"/>
-                                <circle cx="110" cy="140" r="8" fill="#22c55e"/>
-                                <text x="185" y="144" fill="#22c55e" font-size="11" font-weight="bold">OUT</text>
-
-                                <!-- 连线到N-MOS -->
-                                <line x1="110" y1="155" x2="110" y2="180" stroke="#64748b" stroke-width="3"/>
-
-                                <!-- N-MOS (只有一个) -->
-                                <rect x="70" y="180" width="80" height="36" rx="6" fill="url(#mosGrad)" filter="url(#glow)"/>
-                                <text x="110" y="202" fill="white" font-size="11" font-weight="bold" text-anchor="middle">N-MOS</text>
-                                <path d="M 160 198 L 175 198" stroke="#94a3b8" stroke-width="2"/>
-                                <text x="178" y="202" fill="#94a3b8" font-size="9">控制</text>
-
-                                <!-- 虚线框表示"开放" -->
-                                <rect x="65" y="50" width="90" height="60" rx="4" fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
-
-                                <!-- 连线到GND -->
-                                <line x1="110" y1="216" x2="110" y2="240" stroke="#3b82f6" stroke-width="3"/>
-
-                                <!-- GND标签 -->
-                                <rect x="80" y="240" width="60" height="24" rx="4" fill="url(#gndGrad)"/>
-                                <text x="110" y="257" fill="white" font-size="12" font-weight="bold" text-anchor="middle">GND</text>
+                            <svg width="220" height="200" viewBox="0 0 220 200">
+                                <rect width="220" height="200" fill="#0f172a" rx="8"/>
+                                <rect x="80" y="10" width="60" height="22" rx="4" fill="#ef4444"/>
+                                <text x="110" y="25" fill="white" font-size="11" font-weight="bold" text-anchor="middle">VDD</text>
+                                <line x1="110" y1="32" x2="110" y2="48" stroke="#ef4444" stroke-width="2"/>
+                                <rect x="95" y="48" width="30" height="38" rx="4" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2"/>
+                                <text x="110" y="71" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">外部R</text>
+                                <line x1="110" y1="86" x2="110" y2="100" stroke="#64748b" stroke-width="2"/>
+                                <line x1="40" y1="108" x2="180" y2="108" stroke="#22c55e" stroke-width="4"/>
+                                <circle cx="110" cy="108" r="7" fill="#22c55e"/>
+                                <text x="185" y="112" fill="#22c55e" font-size="11" font-weight="bold">OUT</text>
+                                <line x1="110" y1="115" x2="110" y2="133" stroke="#64748b" stroke-width="2"/>
+                                <rect x="70" y="133" width="80" height="30" rx="6" fill="#8b5cf6"/>
+                                <text x="110" y="152" fill="white" font-size="11" font-weight="bold" text-anchor="middle">N-MOS</text>
+                                <line x1="110" y1="163" x2="110" y2="178" stroke="#3b82f6" stroke-width="2"/>
+                                <rect x="80" y="178" width="60" height="18" rx="4" fill="#3b82f6"/>
+                                <text x="110" y="191" fill="white" font-size="11" font-weight="bold" text-anchor="middle">GND</text>
                             </svg>
                         </div>
-                        <div class="card-desc" style="font-size: 0.85rem;">
-                            <p><strong style="color: #3b82f6;">输出 0：</strong>N-MOS 导通 → 0V</p>
-                            <p><strong style="color: #f59e0b;">输出 1：</strong>N-MOS 断开 → 上拉到 5V</p>
-                        </div>
+                        <p class="card-desc" style="font-size:0.85rem;">
+                            只有 N-MOS，输出高电平需外部上拉电阻。<br>
+                            <strong style="color:#3b82f6;">输出0：</strong>N-MOS 导通 → GND<br>
+                            <strong style="color:#f59e0b;">输出1：</strong>N-MOS 断开 → 外部上拉<br>
+                            <strong>适用：</strong>I²C 总线、多设备共享总线
+                        </p>
                     </div>
                 </div>
 
-                <div class="info-card tip">
-                    <div class="info-card-title"><span class="icon">✅</span> 推挽特点</div>
-                    <ul>
-                        <li>✅ 能主动输出高/低电平</li>
-                        <li>✅ 驱动能力强（能点亮 LED）</li>
-                        <li>❌ 多个推挽输出不能直接连到一起（会短路）</li>
-                    </ul>
-                    <p style="margin-top: 0.5rem;"><strong>适用协议：</strong>UART TX、SPI（MOSI/MISO/SCK）</p>
+                <!-- 复用功能模式 -->
+                <h4 style="margin: 1.5rem 0 0.8rem; color: var(--primary);">三、复用功能模式（2 种）</h4>
+                <div class="info-card info">
+                    <div class="info-card-title"><span class="icon">🔀</span> 什么是复用功能？</div>
+                    <p>当引脚由片上外设（UART、SPI、I²C、PWM 等）接管控制时，称为复用功能模式。此时引脚不再由 CPU 的 GPIO 寄存器控制，而由对应外设的发送/接收逻辑直接驱动。</p>
                 </div>
-
-                <h4 style="margin: 1.5rem 0 0.5rem; color: var(--primary);">I2C 典型电路</h4>
-                <!-- 美化的I2C电路图 -->
-                <div class="svg-diagram">
-                    <div class="diagram-title">I2C 总线架构 - 多设备并联</div>
-                    <svg width="500" height="220" viewBox="0 0 500 220">
-                        <defs>
-                            <linearGradient id="busGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#10b981"/>
-                                <stop offset="50%" style="stop-color:#22c55e"/>
-                                <stop offset="100%" style="stop-color:#10b981"/>
-                            </linearGradient>
-                            <linearGradient id="deviceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#6366f1"/>
-                                <stop offset="100%" style="stop-color:#4f46e5"/>
-                            </linearGradient>
-                        </defs>
-                        <rect width="500" height="220" fill="#0f172a" rx="8"/>
-
-                        <!-- VDD 电源 -->
-                        <rect x="220" y="15" width="60" height="22" rx="4" fill="#ef4444"/>
-                        <text x="250" y="31" fill="white" font-size="11" font-weight="bold" text-anchor="middle">VDD 3.3V</text>
-
-                        <!-- 电源线 -->
-                        <line x1="250" y1="37" x2="250" y2="50" stroke="#ef4444" stroke-width="2"/>
-                        <line x1="150" y1="50" x2="350" y2="50" stroke="#ef4444" stroke-width="2"/>
-
-                        <!-- 上拉电阻 -->
-                        <g transform="translate(150, 50)">
-                            <rect x="-12" y="5" width="24" height="35" rx="3" fill="none" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="0" y="27" fill="#f59e0b" font-size="9" font-weight="bold" text-anchor="middle">4.7k</text>
-                            <line x1="0" y1="0" x2="0" y2="5" stroke="#f59e0b" stroke-width="2"/>
-                            <line x1="0" y1="40" x2="0" y2="55" stroke="#f59e0b" stroke-width="2"/>
-                        </g>
-                        <g transform="translate(350, 50)">
-                            <rect x="-12" y="5" width="24" height="35" rx="3" fill="none" stroke="#f59e0b" stroke-width="2"/>
-                            <text x="0" y="27" fill="#f59e0b" font-size="9" font-weight="bold" text-anchor="middle">4.7k</text>
-                            <line x1="0" y1="0" x2="0" y2="5" stroke="#f59e0b" stroke-width="2"/>
-                            <line x1="0" y1="40" x2="0" y2="55" stroke="#f59e0b" stroke-width="2"/>
-                        </g>
-
-                        <!-- 信号标签 -->
-                        <text x="150" y="118" fill="#ec4899" font-size="11" font-weight="bold" text-anchor="middle">SDA</text>
-                        <text x="350" y="118" fill="#8b5cf6" font-size="11" font-weight="bold" text-anchor="middle">SCL</text>
-
-                        <!-- I2C 总线 -->
-                        <line x1="30" y1="130" x2="470" y2="130" stroke="#ec4899" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="30" y1="145" x2="470" y2="145" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round"/>
-
-                        <!-- 连接点 -->
-                        <circle cx="150" cy="130" r="5" fill="#ec4899"/>
-                        <circle cx="350" cy="145" r="5" fill="#8b5cf6"/>
-                        <line x1="150" y1="105" x2="150" y2="130" stroke="#ec4899" stroke-width="2"/>
-                        <line x1="350" y1="105" x2="350" y2="145" stroke="#8b5cf6" stroke-width="2"/>
-
-                        <!-- 设备 -->
-                        <g transform="translate(80, 165)">
-                            <rect x="-35" y="0" width="70" height="40" rx="6" fill="url(#deviceGrad)"/>
-                            <text x="0" y="18" fill="white" font-size="10" font-weight="bold" text-anchor="middle">Master</text>
-                            <text x="0" y="32" fill="#a5b4fc" font-size="8" text-anchor="middle">51单片机</text>
-                            <line x1="0" y1="-5" x2="0" y2="0" stroke="#64748b" stroke-width="2"/>
-                            <line x1="-15" y1="-20" x2="-15" y2="-5" stroke="#ec4899" stroke-width="2"/>
-                            <line x1="15" y1="-20" x2="15" y2="-5" stroke="#8b5cf6" stroke-width="2"/>
-                        </g>
-
-                        <g transform="translate(250, 165)">
-                            <rect x="-35" y="0" width="70" height="40" rx="6" fill="url(#deviceGrad)"/>
-                            <text x="0" y="18" fill="white" font-size="10" font-weight="bold" text-anchor="middle">Slave 1</text>
-                            <text x="0" y="32" fill="#a5b4fc" font-size="8" text-anchor="middle">EEPROM</text>
-                            <line x1="-15" y1="-20" x2="-15" y2="0" stroke="#ec4899" stroke-width="2"/>
-                            <line x1="15" y1="-20" x2="15" y2="0" stroke="#8b5cf6" stroke-width="2"/>
-                        </g>
-
-                        <g transform="translate(420, 165)">
-                            <rect x="-35" y="0" width="70" height="40" rx="6" fill="url(#deviceGrad)"/>
-                            <text x="0" y="18" fill="white" font-size="10" font-weight="bold" text-anchor="middle">Slave 2</text>
-                            <text x="0" y="32" fill="#a5b4fc" font-size="8" text-anchor="middle">传感器</text>
-                            <line x1="-15" y1="-20" x2="-15" y2="0" stroke="#ec4899" stroke-width="2"/>
-                            <line x1="15" y1="-20" x2="15" y2="0" stroke="#8b5cf6" stroke-width="2"/>
-                        </g>
-
-                        <!-- 连接到总线 -->
-                        <circle cx="65" cy="130" r="4" fill="#ec4899"/>
-                        <circle cx="95" cy="145" r="4" fill="#8b5cf6"/>
-                        <circle cx="235" cy="130" r="4" fill="#ec4899"/>
-                        <circle cx="265" cy="145" r="4" fill="#8b5cf6"/>
-                        <circle cx="405" cy="130" r="4" fill="#ec4899"/>
-                        <circle cx="435" cy="145" r="4" fill="#8b5cf6"/>
-                    </svg>
-                    <div class="diagram-legend">
-                        <span class="legend-item"><span class="legend-color" style="background: #ec4899;"></span>SDA 数据线</span>
-                        <span class="legend-item"><span class="legend-color" style="background: #8b5cf6;"></span>SCL 时钟线</span>
-                        <span class="legend-item"><span class="legend-color" style="background: #f59e0b;"></span>上拉电阻</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 上拉/下拉电阻（合并入1.3） -->
-            <div style="margin-top: 2rem;">
-                <h4 style="margin: 0 0 1rem; color: var(--primary);">上拉/下拉电阻（关键概念）</h4>
-
-                <!-- 美化的上拉/下拉电阻对比图 -->
                 <div class="comparison-diagram">
-                    <!-- 上拉电阻 -->
                     <div class="comparison-card">
-                        <h4>⬆️ 上拉电阻（Pull-Up）</h4>
-                        <div class="card-svg">
-                            <svg width="200" height="240" viewBox="0 0 200 240">
-                                <rect width="200" height="240" fill="#0f172a" rx="8"/>
-
-                                <!-- VDD -->
-                                <rect x="70" y="15" width="60" height="22" rx="4" fill="#ef4444"/>
-                                <text x="100" y="30" fill="white" font-size="10" font-weight="bold" text-anchor="middle">VDD</text>
-
-                                <!-- 上拉电阻 -->
-                                <line x1="100" y1="37" x2="100" y2="50" stroke="#ef4444" stroke-width="2"/>
-                                <rect x="85" y="50" width="30" height="40" rx="4" fill="none" stroke="#f59e0b" stroke-width="2"/>
-                                <text x="100" y="75" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">R</text>
-                                <text x="135" y="70" fill="#94a3b8" font-size="8">4.7kΩ</text>
-                                <line x1="100" y1="90" x2="100" y2="105" stroke="#f59e0b" stroke-width="2"/>
-
-                                <!-- 信号线 -->
-                                <line x1="30" y1="115" x2="170" y2="115" stroke="#22c55e" stroke-width="3"/>
-                                <circle cx="100" cy="115" r="5" fill="#22c55e"/>
-                                <text x="175" y="118" fill="#22c55e" font-size="9" font-weight="bold">GPIO</text>
-
-                                <!-- 开关 -->
-                                <line x1="100" y1="120" x2="100" y2="140" stroke="#64748b" stroke-width="2"/>
-                                <rect x="80" y="140" width="40" height="30" rx="4" fill="#475569" stroke="#64748b" stroke-width="1"/>
-                                <text x="100" y="160" fill="#e2e8f0" font-size="9" text-anchor="middle">按键</text>
-                                <line x1="100" y1="170" x2="100" y2="195" stroke="#64748b" stroke-width="2"/>
-
-                                <!-- GND -->
-                                <rect x="70" y="195" width="60" height="22" rx="4" fill="#3b82f6"/>
-                                <text x="100" y="210" fill="white" font-size="10" font-weight="bold" text-anchor="middle">GND</text>
-
-                                <!-- 状态指示 -->
-                                <text x="10" y="115" fill="#22c55e" font-size="8">默认=1</text>
-                            </svg>
-                        </div>
-                        <p class="card-desc">
-                            🔹 <strong>未按下：</strong>上拉到 VDD → 读到 <span class="level-indicator level-high">1</span><br>
-                            🔹 <strong>按下时：</strong>接地 → 读到 <span class="level-indicator level-low">0</span>
+                        <h4>🔀 复用推挽输出</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">
+                            由外设控制，输出结构与推挽相同（P-MOS + N-MOS）。<br><br>
+                            可主动驱动高/低电平，无需外部上拉。<br><br>
+                            <strong>典型应用：</strong>UART TX、SPI MOSI/SCK、PWM 输出
                         </p>
                     </div>
-
-                    <!-- 下拉电阻 -->
                     <div class="comparison-card">
-                        <h4>⬇️ 下拉电阻（Pull-Down）</h4>
-                        <div class="card-svg">
-                            <svg width="200" height="240" viewBox="0 0 200 240">
-                                <rect width="200" height="240" fill="#0f172a" rx="8"/>
-
-                                <!-- VDD -->
-                                <rect x="70" y="15" width="60" height="22" rx="4" fill="#ef4444"/>
-                                <text x="100" y="30" fill="white" font-size="10" font-weight="bold" text-anchor="middle">VDD</text>
-
-                                <!-- 开关（上方） -->
-                                <line x1="100" y1="37" x2="100" y2="50" stroke="#ef4444" stroke-width="2"/>
-                                <rect x="80" y="50" width="40" height="30" rx="4" fill="#475569" stroke="#64748b" stroke-width="1"/>
-                                <text x="100" y="70" fill="#e2e8f0" font-size="9" text-anchor="middle">按键</text>
-                                <line x1="100" y1="80" x2="100" y2="105" stroke="#64748b" stroke-width="2"/>
-
-                                <!-- 信号线 -->
-                                <line x1="30" y1="115" x2="170" y2="115" stroke="#22c55e" stroke-width="3"/>
-                                <circle cx="100" cy="115" r="5" fill="#22c55e"/>
-                                <text x="175" y="118" fill="#22c55e" font-size="9" font-weight="bold">GPIO</text>
-
-                                <!-- 下拉电阻 -->
-                                <line x1="100" y1="120" x2="100" y2="140" stroke="#64748b" stroke-width="2"/>
-                                <rect x="85" y="140" width="30" height="40" rx="4" fill="none" stroke="#3b82f6" stroke-width="2"/>
-                                <text x="100" y="165" fill="#3b82f6" font-size="10" font-weight="bold" text-anchor="middle">R</text>
-                                <text x="135" y="160" fill="#94a3b8" font-size="8">10kΩ</text>
-                                <line x1="100" y1="180" x2="100" y2="195" stroke="#3b82f6" stroke-width="2"/>
-
-                                <!-- GND -->
-                                <rect x="70" y="195" width="60" height="22" rx="4" fill="#3b82f6"/>
-                                <text x="100" y="210" fill="white" font-size="10" font-weight="bold" text-anchor="middle">GND</text>
-
-                                <!-- 状态指示 -->
-                                <text x="10" y="115" fill="#3b82f6" font-size="8">默认=0</text>
-                            </svg>
-                        </div>
-                        <p class="card-desc">
-                            🔹 <strong>未按下：</strong>下拉到 GND → 读到 <span class="level-indicator level-low">0</span><br>
-                            🔹 <strong>按下时：</strong>接 VDD → 读到 <span class="level-indicator level-high">1</span>
+                        <h4>🔀 复用开漏输出</h4>
+                        <p class="card-desc" style="font-size:0.85rem;">
+                            由外设控制，输出结构与开漏相同（只有 N-MOS）。<br><br>
+                            需要外部上拉电阻才能输出高电平。<br><br>
+                            <strong>典型应用：</strong>I²C SDA/SCL（标准要求开漏）
                         </p>
                     </div>
                 </div>
 
-                <p><strong>应用场景：</strong>I2C 总线（强制要求上拉）、按键输入、UART RX 空闲状态</p>
+                <!-- 模拟模式 -->
+                <h4 style="margin: 1.5rem 0 0.8rem; color: var(--primary);">四、模拟模式（1 种）</h4>
+                <div class="info-card tip">
+                    <div class="info-card-title"><span class="icon">〰️</span> 模拟输入/输出</div>
+                    <p>引脚直接与芯片内部的 ADC（模数转换）或 DAC（数模转换）相连，<strong>所有数字电路（施密特触发器、上/下拉电阻）均被禁用</strong>，信号以连续模拟量的形式传递。</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>✅ 采集温度、光照、声音等模拟信号时使用</li>
+                        <li>✅ DAC 输出模拟波形时使用</li>
+                        <li>❌ 不能用于读写数字高/低电平</li>
+                    </ul>
+                </div>
 
+                <!-- 8种模式汇总表 -->
+                <h4 style="margin: 1.5rem 0 0.8rem; color: var(--primary);">八种工作模式汇总</h4>
                 <div class="table-wrapper">
                     <table>
                         <tr>
-                            <th>电阻值</th>
-                            <th>特点</th>
-                            <th>适用场景</th>
+                            <th>类别</th>
+                            <th>模式名称</th>
+                            <th>内部结构</th>
+                            <th>典型应用</th>
                         </tr>
                         <tr>
-                            <td>4.7kΩ - 10kΩ</td>
-                            <td>通用值，平衡功耗和响应速度</td>
-                            <td>I2C、按键输入</td>
+                            <td rowspan="3">输入模式</td>
+                            <td>① 浮空输入</td>
+                            <td>无上/下拉</td>
+                            <td>UART RX、外部有驱动源</td>
                         </tr>
                         <tr>
-                            <td>&lt; 1kΩ</td>
-                            <td>功耗大，响应快</td>
-                            <td>高速信号</td>
+                            <td>② 上拉输入</td>
+                            <td>内部上拉到 VDD</td>
+                            <td>按键、I²C</td>
                         </tr>
                         <tr>
-                            <td>&gt; 100kΩ</td>
-                            <td>功耗低，抗干扰能力弱</td>
-                            <td>极低功耗场景</td>
+                            <td>③ 下拉输入</td>
+                            <td>内部下拉到 GND</td>
+                            <td>确保空闲低电平</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">输出模式</td>
+                            <td>④ 推挽输出</td>
+                            <td>P-MOS + N-MOS</td>
+                            <td>LED、UART TX、SPI</td>
+                        </tr>
+                        <tr>
+                            <td>⑤ 开漏输出</td>
+                            <td>N-MOS + 外部上拉</td>
+                            <td>I²C 总线、多机共线</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">复用功能</td>
+                            <td>⑥ 复用推挽</td>
+                            <td>外设控制 + 推挽</td>
+                            <td>UART TX、SPI SCK/MOSI</td>
+                        </tr>
+                        <tr>
+                            <td>⑦ 复用开漏</td>
+                            <td>外设控制 + 开漏</td>
+                            <td>I²C SDA/SCL</td>
+                        </tr>
+                        <tr>
+                            <td>模拟模式</td>
+                            <td>⑧ 模拟输入/输出</td>
+                            <td>直连 ADC/DAC</td>
+                            <td>传感器采集、波形输出</td>
                         </tr>
                     </table>
                 </div>
