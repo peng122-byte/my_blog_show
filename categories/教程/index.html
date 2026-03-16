@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="zhangkun_peng@foxmail.com | zhangkun_peng@outlook.com">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="代码与电路的浪漫 🎵 | zhangkun_peng@foxmail.com">
 <title>教程</title>
 
 <link rel='canonical' href='https://kun123.xyz/categories/%E6%95%99%E7%A8%8B/'>
 
-<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="教程">
-<meta property='og:description' content="zhangkun_peng@foxmail.com | zhangkun_peng@outlook.com">
+<link rel="stylesheet" href="/scss/style.min.df999351ceeba196f1ae7c3b3bae90b56df261c04dc2dcd068f11c683cf19e73.css"><meta property='og:title' content="教程">
+<meta property='og:description' content="代码与电路的浪漫 🎵 | zhangkun_peng@foxmail.com">
 <meta property='og:url' content='https://kun123.xyz/categories/%E6%95%99%E7%A8%8B/'>
 <meta property='og:site_name' content='鲲的琴盒'>
 <meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-03-06T18:25:00&#43;08:00 '/>
 <meta name="twitter:title" content="教程">
-<meta name="twitter:description" content="zhangkun_peng@foxmail.com | zhangkun_peng@outlook.com"><link rel="alternate" type="application/rss&#43;xml" href="https://kun123.xyz/categories/%E6%95%99%E7%A8%8B/index.xml">
+<meta name="twitter:description" content="代码与电路的浪漫 🎵 | zhangkun_peng@foxmail.com"><link rel="alternate" type="application/rss&#43;xml" href="https://kun123.xyz/categories/%E6%95%99%E7%A8%8B/index.xml">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -70,7 +70,7 @@
         
         <div class="site-meta">
             <h1 class="site-name"><a href="/">鲲的琴盒</a></h1>
-            <h2 class="site-description">zhangkun_peng@foxmail.com | zhangkun_peng@outlook.com</h2>
+            <h2 class="site-description">代码与电路的浪漫 🎵 | zhangkun_peng@foxmail.com</h2>
         </div>
     </header><ol class="menu-social">
             
@@ -311,7 +311,7 @@
                     <a href="/archives/#2026">
                         
                             <span class="year">2026</span>
-                            <span class="count">6</span>
+                            <span class="count">4</span>
                         
                     </a> 
                 </div>
@@ -520,6 +520,110 @@
 
         document.head.appendChild(customFont);
     }());
+</script>
+<script>
+(function () {
+    var list = document.getElementById('article-list');
+    var nav = document.getElementById('js-pagination');
+    var controls = document.getElementById('paginator-controls');
+    var info = document.getElementById('paginator-info');
+    if (!list || !nav) return;
+
+    var articles = Array.prototype.slice.call(list.querySelectorAll(':scope > article'));
+    var total = articles.length;
+    if (total === 0) return;
+
+    var pageSize = parseInt(localStorage.getItem('blog_pageSize')) || 10;
+    var currentPage = 1;
+
+    
+    function initButtons() {
+        var btns = controls.querySelectorAll('.paginator-size');
+        btns.forEach(function (btn) {
+            btn.classList.toggle('active', parseInt(btn.dataset.size) === pageSize);
+            btn.onclick = function () {
+                pageSize = parseInt(this.dataset.size);
+                localStorage.setItem('blog_pageSize', pageSize);
+                currentPage = 1;
+                render();
+                initButtons();
+            };
+        });
+    }
+
+    function render() {
+        var totalPages = Math.ceil(total / pageSize);
+        if (currentPage > totalPages) currentPage = totalPages;
+        var start = (currentPage - 1) * pageSize;
+        var end = start + pageSize;
+
+        
+        articles.forEach(function (el, i) {
+            if (i >= start && i < end) {
+                el.style.display = '';
+                el.style.animation = 'fadeInUp 0.5s ease both';
+                el.style.animationDelay = ((i - start) * 0.06) + 's';
+            } else {
+                el.style.display = 'none';
+            }
+        });
+
+        
+        info.textContent = '共 ' + total + ' 篇，第 ' + currentPage + '/' + totalPages + ' 页';
+
+        
+        if (totalPages <= 1) {
+            nav.innerHTML = '';
+            return;
+        }
+
+        var html = '';
+
+        
+        if (currentPage > 1) {
+            html += '<a class="page-link" data-page="' + (currentPage - 1) + '" aria-label="Previous page">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M15 6l-6 6l6 6"/></svg></a>';
+        } else {
+            html += '<span class="page-link disabled" aria-disabled="true">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M15 6l-6 6l6 6"/></svg></span>';
+        }
+
+        
+        for (var p = 1; p <= totalPages; p++) {
+            if (p === 1 || p === totalPages || (p >= currentPage - 2 && p <= currentPage + 2)) {
+                html += '<a class="page-link' + (p === currentPage ? ' current' : '') + '" data-page="' + p + '">' + p + '</a>';
+            } else if (p === currentPage - 3 || p === currentPage + 3) {
+                html += '<span class="page-link disabled">…</span>';
+            }
+        }
+
+        
+        if (currentPage < totalPages) {
+            html += '<a class="page-link" data-page="' + (currentPage + 1) + '" aria-label="Next page">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M9 6l6 6l-6 6"/></svg></a>';
+        } else {
+            html += '<span class="page-link disabled" aria-disabled="true">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M9 6l6 6l-6 6"/></svg></span>';
+        }
+
+        nav.innerHTML = html;
+
+        
+        nav.querySelectorAll('a.page-link').forEach(function (a) {
+            a.style.cursor = 'pointer';
+            a.onclick = function (e) {
+                e.preventDefault();
+                currentPage = parseInt(this.dataset.page);
+                render();
+                
+                list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+        });
+    }
+
+    initButtons();
+    render();
+})();
 </script>
 
     </body>

@@ -41,27 +41,17 @@
 &lt;/ul&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;历年真题刷题总结&#34;&gt;历年真题刷题总结
-&lt;/h2&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;届次&lt;/th&gt;
-          &lt;th&gt;题目方向&lt;/th&gt;
-          &lt;th&gt;文章链接&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;第十一届省赛&lt;/td&gt;
-          &lt;td&gt;电压监测与统计系统（ADC + AT24C02）&lt;/td&gt;
-          &lt;td&gt;&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/lanqiao-mcu-11th-provincial/&#34; &gt;刷题总结&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;第十二届省赛(一)&lt;/td&gt;
-          &lt;td&gt;DS18B20温度采集与DAC输出&lt;/td&gt;
-          &lt;td&gt;&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/lanqiao-mcu-12th-provincial/&#34; &gt;刷题总结&lt;/a&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;省赛真题&#34;&gt;省赛真题
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/lanqiao-mcu-11th-provincial/&#34; &gt;第十一届省赛 — 电压监测与统计系统&lt;/a&gt;&lt;/strong&gt;
+ADC采集、EEPROM存储、下降沿检测&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/lanqiao-mcu-12th-provincial/&#34; &gt;第十二届省赛(第一场) — DS18B20温度采集与DAC输出&lt;/a&gt;&lt;/strong&gt;
+线性插值、整数溢出防护、DAC输出控制&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;持续更新中，敬请关注！&lt;/p&gt;
