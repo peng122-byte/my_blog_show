@@ -3947,6 +3947,32 @@ void debug_print() {
 
                 <p>I2C 只需要 2 根线就能连接多个设备，非常适合连接传感器。</p>
 
+                <div class="info-card" style="margin-bottom: 1rem;">
+                    <div class="info-card-title"><span class="icon">🔑</span> I2C 核心概念速览</div>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.4rem 0.8rem; width: 25%; font-weight: bold; color: var(--primary);">信号线</td>
+                            <td style="padding: 0.4rem 0.8rem;"><strong>SCL</strong>（时钟，主机产生）+ <strong>SDA</strong>（数据，双向传输）</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.4rem 0.8rem; font-weight: bold; color: var(--primary);">寻址方式</td>
+                            <td style="padding: 0.4rem 0.8rem;">每个从机有唯一 <strong>7 位地址</strong>，主机通过地址选择目标设备（最多 127 个）</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.4rem 0.8rem; font-weight: bold; color: var(--primary);">电气特性</td>
+                            <td style="padding: 0.4rem 0.8rem;"><strong>开漏输出</strong>，必须外接 <strong>4.7kΩ 上拉电阻</strong>到 VCC，否则总线无法拉高</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.4rem 0.8rem; font-weight: bold; color: var(--primary);">通信速度</td>
+                            <td style="padding: 0.4rem 0.8rem;">标准模式 <strong>100kHz</strong>，快速模式 400kHz（51单片机软件模拟一般用100kHz以下）</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.4rem 0.8rem; font-weight: bold; color: var(--primary);">典型器件</td>
+                            <td style="padding: 0.4rem 0.8rem;">AT24C02（EEPROM）、OLED 显示屏、BMP280（气压传感器）、MPU6050（陀螺仪）</td>
+                        </tr>
+                    </table>
+                </div>
+
                 <h4 style="margin: 1rem 0 0.5rem; color: var(--primary);">基本概念</h4>
                 <!-- 美化的I2C总线连接图 -->
                 <div class="svg-diagram">
@@ -4131,11 +4157,6 @@ void debug_print() {
                             <text x="350" y="58" fill="#94a3b8" font-size="9">NACK = SDA高 (结束/错误)</text>
                         </g>
                     </svg>
-                </div>
-        └───────────┘    └───┘
-                          ↓
-   SDA  由发送方控制 → 释放 → 接收方拉低=ACK，保持高=NACK
-                    </pre>
                 </div>
 
                 <h4 style="margin: 1.5rem 0 0.5rem; color: var(--primary);">地址格式</h4>
@@ -4554,6 +4575,63 @@ void i2c_read_bytes(unsigned char addr, unsigned char reg,
                         <li><strong>错误检测</strong> → <code>i2c_write_reg</code> 返回错误码，便于调试</li>
                         <li><strong>参数语义清晰</strong> → <code>send_ack=1</code> 表示"要发送ACK"，直观易懂</li>
                         <li><strong>批量读取</strong> → <code>i2c_read_bytes</code> 支持连续读多字节</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">C51 - AT24C02 完整读写示例（应用层调用）</span>
+                        <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    </div>
+                    <pre><code>// AT24C02 设备地址（A2A1A0 引脚全接 GND → 地址 = 0x50）
+#define AT24C02_ADDR  0x50
+
+// 毫秒延时（12MHz 晶振）
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for(i = 0; i &lt; ms; i++)
+        for(j = 0; j &lt; 120; j++);
+}
+
+// 写一个字节到 AT24C02
+// mem_addr: EEPROM 内部地址（0x00~0xFF，共 256 字节）
+// dat:      要写入的数据
+// 返回：0=成功，非0=失败
+unsigned char at24c02_write_byte(unsigned char mem_addr, unsigned char dat) {
+    unsigned char ret = i2c_write_reg(AT24C02_ADDR, mem_addr, dat);
+    delay_ms(10);   // ⚠️ 关键！AT24C02 内部写操作最长 5ms，写完必须等待
+    return ret;
+}
+
+// 从 AT24C02 读一个字节
+unsigned char at24c02_read_byte(unsigned char mem_addr) {
+    return i2c_read_reg(AT24C02_ADDR, mem_addr);
+}
+
+// 主函数：写入数据后读回验证
+void main(void) {
+    unsigned char wdata = 0xA5;   // 要写入的测试数据
+    unsigned char rdata;
+
+    at24c02_write_byte(0x00, wdata);    // 写入地址 0x00
+    rdata = at24c02_read_byte(0x00);    // 从地址 0x00 读回
+
+    if(rdata == wdata) {
+        P1 = 0x00;   // 读写一致 → LED 全亮（成功）
+    } else {
+        P1 = 0xFF;   // 读写不一致 → LED 全灭（失败，检查接线/延时）
+    }
+    while(1);
+}</code></pre>
+                </div>
+
+                <div class="info-card tip">
+                    <div class="info-card-title"><span class="icon">💡</span> AT24C02 使用关键点</div>
+                    <ul>
+                        <li><strong>写后必须等待</strong> → AT24C02 内部写操作需要 ≤5ms，写完立刻读会得到错误数据（全0xFF）</li>
+                        <li><strong>地址范围</strong> → AT24C02 内部共 256 字节，地址 0x00~0xFF</li>
+                        <li><strong>掉电保持</strong> → 数据写入后断电不丢失，是 EEPROM 的核心价值</li>
+                        <li><strong>硬件地址确认</strong> → 板上 A2A1A0 引脚全接 GND 时，器件地址 = 0x50；若有引脚接高，地址相应增加</li>
                     </ul>
                 </div>
 
