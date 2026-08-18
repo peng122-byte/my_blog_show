@@ -5,9 +5,190 @@
         <link>https://kun123.xyz/</link>
         <description>Recent content on 鲲的琴盒</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
+        <language>zh-cn</language>
         <copyright>Kun</copyright>
-        <lastBuildDate>Fri, 06 Mar 2026 18:12:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 18 Aug 2026 00:00:00 +0800</lastBuildDate><atom:link href="https://kun123.xyz/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>FPGA 与 Verilog 系统学习</title>
+        <link>https://kun123.xyz/p/fpga-learning/</link>
+        <pubDate>Tue, 18 Aug 2026 00:00:00 +0800</pubDate>
+        
+        <guid>https://kun123.xyz/p/fpga-learning/</guid>
+        <description>&lt;h1 id=&#34;verilog-学习目录&#34;&gt;Verilog 学习目录
+&lt;/h1&gt;&lt;p&gt;本课程按照“概念讲解 -&amp;gt; 示例代码 -&amp;gt; Testbench -&amp;gt; 波形分析 -&amp;gt; 练习题”的方式学习，从数字电路基础逐步过渡到 FPGA 综合项目。&lt;/p&gt;
+&lt;h2 id=&#34;第一阶段基础入门&#34;&gt;第一阶段：基础入门
+&lt;/h2&gt;&lt;p&gt;讲义：&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/fpga-learning-01-basics/&#34; &gt;第一阶段：Verilog 基础入门讲义&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;第-1-章数字电路与-verilog-概述&#34;&gt;第 1 章：数字电路与 Verilog 概述
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;FPGA、ASIC 和 Verilog 的关系&lt;/li&gt;
+&lt;li&gt;二进制、逻辑电平和数字信号&lt;/li&gt;
+&lt;li&gt;组合逻辑与时序逻辑&lt;/li&gt;
+&lt;li&gt;Verilog 描述硬件的基本思想&lt;/li&gt;
+&lt;li&gt;第一个 Verilog 模块&lt;/li&gt;
+&lt;li&gt;实践：实现并仿真一个与门&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-2-章模块与端口&#34;&gt;第 2 章：模块与端口
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;module&lt;/code&gt; 和 &lt;code&gt;endmodule&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;input&lt;/code&gt;、&lt;code&gt;output&lt;/code&gt; 和 &lt;code&gt;inout&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;模块命名和端口定义&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;wire&lt;/code&gt; 与 &lt;code&gt;reg&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;模块例化和端口连接&lt;/li&gt;
+&lt;li&gt;实践：实现一个包含多个逻辑门的模块&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-3-章数值与运算符&#34;&gt;第 3 章：数值与运算符
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;二进制、八进制、十进制和十六进制&lt;/li&gt;
+&lt;li&gt;位宽与有符号数&lt;/li&gt;
+&lt;li&gt;算术运算符&lt;/li&gt;
+&lt;li&gt;逻辑运算符&lt;/li&gt;
+&lt;li&gt;位运算符&lt;/li&gt;
+&lt;li&gt;比较、移位和拼接运算符&lt;/li&gt;
+&lt;li&gt;实践：实现一个简单算术逻辑单元&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;第二阶段组合逻辑&#34;&gt;第二阶段：组合逻辑
+&lt;/h2&gt;&lt;p&gt;讲义：&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/fpga-learning-02-combinational/&#34; &gt;第二阶段：组合逻辑讲义&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;第-4-章连续赋值与组合逻辑&#34;&gt;第 4 章：连续赋值与组合逻辑
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;assign&lt;/code&gt; 语句&lt;/li&gt;
+&lt;li&gt;组合逻辑的特点&lt;/li&gt;
+&lt;li&gt;多位信号操作&lt;/li&gt;
+&lt;li&gt;条件运算符 &lt;code&gt;?:&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;组合逻辑中的传播关系&lt;/li&gt;
+&lt;li&gt;实践：实现二选一多路选择器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-5-章always-组合逻辑&#34;&gt;第 5 章：&lt;code&gt;always&lt;/code&gt; 组合逻辑
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;always @(*)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;阻塞赋值 &lt;code&gt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;if-else&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;case&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;默认赋值&lt;/li&gt;
+&lt;li&gt;锁存器产生的原因与避免方法&lt;/li&gt;
+&lt;li&gt;实践：使用 &lt;code&gt;always&lt;/code&gt; 实现四选一多路选择器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-6-章常用组合电路&#34;&gt;第 6 章：常用组合电路
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;编码器与优先编码器&lt;/li&gt;
+&lt;li&gt;译码器&lt;/li&gt;
+&lt;li&gt;多路选择器&lt;/li&gt;
+&lt;li&gt;比较器&lt;/li&gt;
+&lt;li&gt;半加器与全加器&lt;/li&gt;
+&lt;li&gt;加减法器&lt;/li&gt;
+&lt;li&gt;实践：实现一个 4 位加减法器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;第三阶段时序逻辑&#34;&gt;第三阶段：时序逻辑
+&lt;/h2&gt;&lt;p&gt;讲义：&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/fpga-learning-03-sequential/&#34; &gt;第三阶段：时序逻辑讲义&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;第-7-章时钟复位与触发器&#34;&gt;第 7 章：时钟、复位与触发器
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;时钟信号&lt;/li&gt;
+&lt;li&gt;上升沿与下降沿&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;always @(posedge clk)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;非阻塞赋值 &lt;code&gt;&amp;lt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;同步复位与异步复位&lt;/li&gt;
+&lt;li&gt;D 触发器&lt;/li&gt;
+&lt;li&gt;实践：实现带复位和使能的寄存器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-8-章寄存器与移位寄存器&#34;&gt;第 8 章：寄存器与移位寄存器
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;多位寄存器&lt;/li&gt;
+&lt;li&gt;串入串出&lt;/li&gt;
+&lt;li&gt;串入并出&lt;/li&gt;
+&lt;li&gt;并入串出&lt;/li&gt;
+&lt;li&gt;左移与右移&lt;/li&gt;
+&lt;li&gt;循环移位&lt;/li&gt;
+&lt;li&gt;实践：实现一个 8 位流水灯控制器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-9-章计数器&#34;&gt;第 9 章：计数器
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;加法计数器&lt;/li&gt;
+&lt;li&gt;减法计数器&lt;/li&gt;
+&lt;li&gt;可逆计数器&lt;/li&gt;
+&lt;li&gt;模 N 计数器&lt;/li&gt;
+&lt;li&gt;分频计数器&lt;/li&gt;
+&lt;li&gt;计数器位宽计算&lt;/li&gt;
+&lt;li&gt;实践：实现一个 0 到 9 循环计数器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-10-章有限状态机&#34;&gt;第 10 章：有限状态机
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;状态机的概念&lt;/li&gt;
+&lt;li&gt;Moore 型与 Mealy 型状态机&lt;/li&gt;
+&lt;li&gt;状态寄存器&lt;/li&gt;
+&lt;li&gt;次态逻辑&lt;/li&gt;
+&lt;li&gt;输出逻辑&lt;/li&gt;
+&lt;li&gt;状态编码&lt;/li&gt;
+&lt;li&gt;实践：实现一个序列检测器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;第四阶段模块化设计&#34;&gt;第四阶段：模块化设计
+&lt;/h2&gt;&lt;p&gt;讲义：&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/fpga-learning-04-modular/&#34; &gt;第四阶段：模块化设计讲义&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;第-11-章参数化与层次化设计&#34;&gt;第 11 章：参数化与层次化设计
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;模块例化&lt;/li&gt;
+&lt;li&gt;位置连接与名称连接&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;parameter&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;localparam&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;generate&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;可复用模块设计&lt;/li&gt;
+&lt;li&gt;实践：实现位宽可配置的计数器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-12-章存储器设计&#34;&gt;第 12 章：存储器设计
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;ROM 和 RAM&lt;/li&gt;
+&lt;li&gt;同步读与异步读&lt;/li&gt;
+&lt;li&gt;单端口 RAM&lt;/li&gt;
+&lt;li&gt;双端口 RAM&lt;/li&gt;
+&lt;li&gt;存储器初始化&lt;/li&gt;
+&lt;li&gt;FPGA 片上存储资源&lt;/li&gt;
+&lt;li&gt;实践：实现一个小型同步 RAM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-13-章跨时钟域与可靠设计&#34;&gt;第 13 章：跨时钟域与可靠设计
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;亚稳态&lt;/li&gt;
+&lt;li&gt;双触发器同步器&lt;/li&gt;
+&lt;li&gt;按键消抖&lt;/li&gt;
+&lt;li&gt;边沿检测&lt;/li&gt;
+&lt;li&gt;脉冲同步&lt;/li&gt;
+&lt;li&gt;多位数据跨时钟域的基本方法&lt;/li&gt;
+&lt;li&gt;实践：实现按键消抖和单脉冲输出&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;第五阶段仿真约束与-fpga-工程实践&#34;&gt;第五阶段：仿真、约束与 FPGA 工程实践
+&lt;/h2&gt;&lt;p&gt;讲义：&lt;a class=&#34;link&#34; href=&#34;https://kun123.xyz/p/fpga-learning-05-engineering/&#34; &gt;第五阶段：仿真、约束与 FPGA 工程实践讲义&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;第-14-章testbench-与仿真&#34;&gt;第 14 章：Testbench 与仿真
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Testbench 结构&lt;/li&gt;
+&lt;li&gt;驱动时刻、采样时刻与非阻塞赋值&lt;/li&gt;
+&lt;li&gt;期望值、四态比较与错误计数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;task&lt;/code&gt;、超时保护和参数化复测&lt;/li&gt;
+&lt;li&gt;自检结果与波形调试的分工&lt;/li&gt;
+&lt;li&gt;厂商 IP 仿真的边界&lt;/li&gt;
+&lt;li&gt;实践：为计数器编写自检式 Testbench&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第-15-章tangdynasty-约束实现与上板&#34;&gt;第 15 章：TangDynasty 约束、实现与上板
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;仿真与综合的区别&lt;/li&gt;
+&lt;li&gt;顶层端口、原理图与封装引脚的映射&lt;/li&gt;
+&lt;li&gt;安路 &lt;code&gt;.adc&lt;/code&gt; 引脚与 I/O 电气约束&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.sdc&lt;/code&gt; 输入时钟、生成时钟和接口时序约束&lt;/li&gt;
+&lt;li&gt;约束未命中、fanout 与 STA coverage 检查&lt;/li&gt;
+&lt;li&gt;建立时间与保持时间&lt;/li&gt;
+&lt;li&gt;TD 综合、布局布线、时序报告和下载流程&lt;/li&gt;
+&lt;li&gt;实践：完成 &lt;code&gt;.v + .adc + .sdc&lt;/code&gt; 流水灯上板闭环&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;第六阶段综合项目&#34;&gt;第六阶段：综合项目
+&lt;/h2&gt;&lt;h3 id=&#34;第-16-章完整项目实践&#34;&gt;第 16 章：完整项目实践
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;LED 流水灯&lt;/li&gt;
+&lt;li&gt;按键控制 LED&lt;/li&gt;
+&lt;li&gt;数码管动态显示&lt;/li&gt;
+&lt;li&gt;可调频率计数器&lt;/li&gt;
+&lt;li&gt;交通灯状态机&lt;/li&gt;
+&lt;li&gt;UART 串口发送与接收&lt;/li&gt;
+&lt;li&gt;简易电子时钟&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;建议学习顺序&#34;&gt;建议学习顺序
+&lt;/h2&gt;&lt;p&gt;严格按照章节顺序推进。完成每一章的示例、仿真和练习后，再进入下一章。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>蓝桥杯单片机专栏 - 备赛指南与知识总结</title>
         <link>https://kun123.xyz/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%93%E6%A0%8F-%E5%A4%87%E8%B5%9B%E6%8C%87%E5%8D%97%E4%B8%8E%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</link>
         <pubDate>Fri, 06 Mar 2026 18:12:00 +0800</pubDate>

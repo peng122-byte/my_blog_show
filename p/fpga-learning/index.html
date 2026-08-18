@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="从数字电路与 Verilog 基础出发，系统学习组合逻辑、时序逻辑、模块化设计、仿真、约束和 FPGA 工程实践。">
+<title>FPGA 与 Verilog 系统学习</title>
+
+<link rel='canonical' href='https://kun123.xyz/p/fpga-learning/'>
+
+<link rel="stylesheet" href="/scss/style.min.df999351ceeba196f1ae7c3b3bae90b56df261c04dc2dcd068f11c683cf19e73.css"><meta property='og:title' content="FPGA 与 Verilog 系统学习">
+<meta property='og:description' content="从数字电路与 Verilog 基础出发，系统学习组合逻辑、时序逻辑、模块化设计、仿真、约束和 FPGA 工程实践。">
+<meta property='og:url' content='https://kun123.xyz/p/fpga-learning/'>
+<meta property='og:site_name' content='鲲的琴盒'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='FPGA' /><meta property='article:tag' content='Verilog' /><meta property='article:tag' content='数字电路' /><meta property='article:published_time' content='2026-08-18T00:00:00&#43;08:00'/><meta property='article:modified_time' content='2026-08-18T00:00:00&#43;08:00'/>
+<meta name="twitter:title" content="FPGA 与 Verilog 系统学习">
+<meta name="twitter:description" content="从数字电路与 Verilog 基础出发，系统学习组合逻辑、时序逻辑、模块化设计、仿真、约束和 FPGA 工程实践。">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_1282dd7466320a53.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">鲲的琴盒</a></h1>
+            <h2 class="site-description">代码与电路的浪漫 🎵 | zhangkun_peng@foxmail.com</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/520865862'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/>
+  <path d="M7 3l2 2"/>
+  <path d="M17 3l-2 2"/>
+  <circle cx="9" cy="12" r="1"/>
+  <circle cx="15" cy="12" r="1"/>
+</svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/peng122-byte'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li  class='current' >
+            <a href='/p/fpga-learning/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                
+                <span>FPGA 与 Verilog 系统学习</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://kun123.xyz/" selected>简体中文</option>
+                                
+                                    <option value="https://kun123.xyz/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#第一阶段基础入门">第一阶段：基础入门</a>
+      <ol>
+        <li><a href="#第-1-章数字电路与-verilog-概述">第 1 章：数字电路与 Verilog 概述</a></li>
+        <li><a href="#第-2-章模块与端口">第 2 章：模块与端口</a></li>
+        <li><a href="#第-3-章数值与运算符">第 3 章：数值与运算符</a></li>
+      </ol>
+    </li>
+    <li><a href="#第二阶段组合逻辑">第二阶段：组合逻辑</a>
+      <ol>
+        <li><a href="#第-4-章连续赋值与组合逻辑">第 4 章：连续赋值与组合逻辑</a></li>
+        <li><a href="#第-5-章always-组合逻辑">第 5 章：<code>always</code> 组合逻辑</a></li>
+        <li><a href="#第-6-章常用组合电路">第 6 章：常用组合电路</a></li>
+      </ol>
+    </li>
+    <li><a href="#第三阶段时序逻辑">第三阶段：时序逻辑</a>
+      <ol>
+        <li><a href="#第-7-章时钟复位与触发器">第 7 章：时钟、复位与触发器</a></li>
+        <li><a href="#第-8-章寄存器与移位寄存器">第 8 章：寄存器与移位寄存器</a></li>
+        <li><a href="#第-9-章计数器">第 9 章：计数器</a></li>
+        <li><a href="#第-10-章有限状态机">第 10 章：有限状态机</a></li>
+      </ol>
+    </li>
+    <li><a href="#第四阶段模块化设计">第四阶段：模块化设计</a>
+      <ol>
+        <li><a href="#第-11-章参数化与层次化设计">第 11 章：参数化与层次化设计</a></li>
+        <li><a href="#第-12-章存储器设计">第 12 章：存储器设计</a></li>
+        <li><a href="#第-13-章跨时钟域与可靠设计">第 13 章：跨时钟域与可靠设计</a></li>
+      </ol>
+    </li>
+    <li><a href="#第五阶段仿真约束与-fpga-工程实践">第五阶段：仿真、约束与 FPGA 工程实践</a>
+      <ol>
+        <li><a href="#第-14-章testbench-与仿真">第 14 章：Testbench 与仿真</a></li>
+        <li><a href="#第-15-章tangdynasty-约束实现与上板">第 15 章：TangDynasty 约束、实现与上板</a></li>
+      </ol>
+    </li>
+    <li><a href="#第六阶段综合项目">第六阶段：综合项目</a>
+      <ol>
+        <li><a href="#第-16-章完整项目实践">第 16 章：完整项目实践</a></li>
+      </ol>
+    </li>
+    <li><a href="#建议学习顺序">建议学习顺序</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/fpga-learning/">
+                <div class="gradient-cover gradient-default">
+                    <span class="gradient-icon">📝</span>
+                </div>
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/categories/fpga-%E5%AD%A6%E4%B9%A0/" style="background-color: hsl(196, 60%, 84%); color: hsl(196, 60%, 15%);">
+                FPGA 学习
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/fpga-learning/">FPGA 与 Verilog 系统学习</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            从数字电路与 Verilog 基础出发，系统学习组合逻辑、时序逻辑、模块化设计、仿真、约束和 FPGA 工程实践。
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published" datetime='2026-08-18T00:00:00&#43;08:00'>Aug 18, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+
+    <section class="article-content">
+    
+    
+    <h1 id="verilog-学习目录">Verilog 学习目录
+</h1><p>本课程按照“概念讲解 -&gt; 示例代码 -&gt; Testbench -&gt; 波形分析 -&gt; 练习题”的方式学习，从数字电路基础逐步过渡到 FPGA 综合项目。</p>
+<h2 id="第一阶段基础入门">第一阶段：基础入门
+</h2><p>讲义：<a class="link" href="/p/fpga-learning-01-basics/" >第一阶段：Verilog 基础入门讲义</a></p>
+<h3 id="第-1-章数字电路与-verilog-概述">第 1 章：数字电路与 Verilog 概述
+</h3><ul>
+<li>FPGA、ASIC 和 Verilog 的关系</li>
+<li>二进制、逻辑电平和数字信号</li>
+<li>组合逻辑与时序逻辑</li>
+<li>Verilog 描述硬件的基本思想</li>
+<li>第一个 Verilog 模块</li>
+<li>实践：实现并仿真一个与门</li>
+</ul>
+<h3 id="第-2-章模块与端口">第 2 章：模块与端口
+</h3><ul>
+<li><code>module</code> 和 <code>endmodule</code></li>
+<li><code>input</code>、<code>output</code> 和 <code>inout</code></li>
+<li>模块命名和端口定义</li>
+<li><code>wire</code> 与 <code>reg</code></li>
+<li>模块例化和端口连接</li>
+<li>实践：实现一个包含多个逻辑门的模块</li>
+</ul>
+<h3 id="第-3-章数值与运算符">第 3 章：数值与运算符
+</h3><ul>
+<li>二进制、八进制、十进制和十六进制</li>
+<li>位宽与有符号数</li>
+<li>算术运算符</li>
+<li>逻辑运算符</li>
+<li>位运算符</li>
+<li>比较、移位和拼接运算符</li>
+<li>实践：实现一个简单算术逻辑单元</li>
+</ul>
+<h2 id="第二阶段组合逻辑">第二阶段：组合逻辑
+</h2><p>讲义：<a class="link" href="/p/fpga-learning-02-combinational/" >第二阶段：组合逻辑讲义</a></p>
+<h3 id="第-4-章连续赋值与组合逻辑">第 4 章：连续赋值与组合逻辑
+</h3><ul>
+<li><code>assign</code> 语句</li>
+<li>组合逻辑的特点</li>
+<li>多位信号操作</li>
+<li>条件运算符 <code>?:</code></li>
+<li>组合逻辑中的传播关系</li>
+<li>实践：实现二选一多路选择器</li>
+</ul>
+<h3 id="第-5-章always-组合逻辑">第 5 章：<code>always</code> 组合逻辑
+</h3><ul>
+<li><code>always @(*)</code></li>
+<li>阻塞赋值 <code>=</code></li>
+<li><code>if-else</code></li>
+<li><code>case</code></li>
+<li>默认赋值</li>
+<li>锁存器产生的原因与避免方法</li>
+<li>实践：使用 <code>always</code> 实现四选一多路选择器</li>
+</ul>
+<h3 id="第-6-章常用组合电路">第 6 章：常用组合电路
+</h3><ul>
+<li>编码器与优先编码器</li>
+<li>译码器</li>
+<li>多路选择器</li>
+<li>比较器</li>
+<li>半加器与全加器</li>
+<li>加减法器</li>
+<li>实践：实现一个 4 位加减法器</li>
+</ul>
+<h2 id="第三阶段时序逻辑">第三阶段：时序逻辑
+</h2><p>讲义：<a class="link" href="/p/fpga-learning-03-sequential/" >第三阶段：时序逻辑讲义</a></p>
+<h3 id="第-7-章时钟复位与触发器">第 7 章：时钟、复位与触发器
+</h3><ul>
+<li>时钟信号</li>
+<li>上升沿与下降沿</li>
+<li><code>always @(posedge clk)</code></li>
+<li>非阻塞赋值 <code>&lt;=</code></li>
+<li>同步复位与异步复位</li>
+<li>D 触发器</li>
+<li>实践：实现带复位和使能的寄存器</li>
+</ul>
+<h3 id="第-8-章寄存器与移位寄存器">第 8 章：寄存器与移位寄存器
+</h3><ul>
+<li>多位寄存器</li>
+<li>串入串出</li>
+<li>串入并出</li>
+<li>并入串出</li>
+<li>左移与右移</li>
+<li>循环移位</li>
+<li>实践：实现一个 8 位流水灯控制器</li>
+</ul>
+<h3 id="第-9-章计数器">第 9 章：计数器
+</h3><ul>
+<li>加法计数器</li>
+<li>减法计数器</li>
+<li>可逆计数器</li>
+<li>模 N 计数器</li>
+<li>分频计数器</li>
+<li>计数器位宽计算</li>
+<li>实践：实现一个 0 到 9 循环计数器</li>
+</ul>
+<h3 id="第-10-章有限状态机">第 10 章：有限状态机
+</h3><ul>
+<li>状态机的概念</li>
+<li>Moore 型与 Mealy 型状态机</li>
+<li>状态寄存器</li>
+<li>次态逻辑</li>
+<li>输出逻辑</li>
+<li>状态编码</li>
+<li>实践：实现一个序列检测器</li>
+</ul>
+<h2 id="第四阶段模块化设计">第四阶段：模块化设计
+</h2><p>讲义：<a class="link" href="/p/fpga-learning-04-modular/" >第四阶段：模块化设计讲义</a></p>
+<h3 id="第-11-章参数化与层次化设计">第 11 章：参数化与层次化设计
+</h3><ul>
+<li>模块例化</li>
+<li>位置连接与名称连接</li>
+<li><code>parameter</code></li>
+<li><code>localparam</code></li>
+<li><code>generate</code></li>
+<li>可复用模块设计</li>
+<li>实践：实现位宽可配置的计数器</li>
+</ul>
+<h3 id="第-12-章存储器设计">第 12 章：存储器设计
+</h3><ul>
+<li>ROM 和 RAM</li>
+<li>同步读与异步读</li>
+<li>单端口 RAM</li>
+<li>双端口 RAM</li>
+<li>存储器初始化</li>
+<li>FPGA 片上存储资源</li>
+<li>实践：实现一个小型同步 RAM</li>
+</ul>
+<h3 id="第-13-章跨时钟域与可靠设计">第 13 章：跨时钟域与可靠设计
+</h3><ul>
+<li>亚稳态</li>
+<li>双触发器同步器</li>
+<li>按键消抖</li>
+<li>边沿检测</li>
+<li>脉冲同步</li>
+<li>多位数据跨时钟域的基本方法</li>
+<li>实践：实现按键消抖和单脉冲输出</li>
+</ul>
+<h2 id="第五阶段仿真约束与-fpga-工程实践">第五阶段：仿真、约束与 FPGA 工程实践
+</h2><p>讲义：<a class="link" href="/p/fpga-learning-05-engineering/" >第五阶段：仿真、约束与 FPGA 工程实践讲义</a></p>
+<h3 id="第-14-章testbench-与仿真">第 14 章：Testbench 与仿真
+</h3><ul>
+<li>Testbench 结构</li>
+<li>驱动时刻、采样时刻与非阻塞赋值</li>
+<li>期望值、四态比较与错误计数</li>
+<li><code>task</code>、超时保护和参数化复测</li>
+<li>自检结果与波形调试的分工</li>
+<li>厂商 IP 仿真的边界</li>
+<li>实践：为计数器编写自检式 Testbench</li>
+</ul>
+<h3 id="第-15-章tangdynasty-约束实现与上板">第 15 章：TangDynasty 约束、实现与上板
+</h3><ul>
+<li>仿真与综合的区别</li>
+<li>顶层端口、原理图与封装引脚的映射</li>
+<li>安路 <code>.adc</code> 引脚与 I/O 电气约束</li>
+<li><code>.sdc</code> 输入时钟、生成时钟和接口时序约束</li>
+<li>约束未命中、fanout 与 STA coverage 检查</li>
+<li>建立时间与保持时间</li>
+<li>TD 综合、布局布线、时序报告和下载流程</li>
+<li>实践：完成 <code>.v + .adc + .sdc</code> 流水灯上板闭环</li>
+</ul>
+<h2 id="第六阶段综合项目">第六阶段：综合项目
+</h2><h3 id="第-16-章完整项目实践">第 16 章：完整项目实践
+</h3><ol>
+<li>LED 流水灯</li>
+<li>按键控制 LED</li>
+<li>数码管动态显示</li>
+<li>可调频率计数器</li>
+<li>交通灯状态机</li>
+<li>UART 串口发送与接收</li>
+<li>简易电子时钟</li>
+</ol>
+<h2 id="建议学习顺序">建议学习顺序
+</h2><p>严格按照章节顺序推进。完成每一章的示例、仿真和练习后，再进入下一章。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/fpga/">FPGA</a>
+        
+            <a href="/tags/verilog/">Verilog</a>
+        
+            <a href="/tags/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/">数字电路</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2026 Kun
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://beian.miit.gov.cn/" target="_blank">赣ICP备2026003187号-1</a> | <img src="/beian.png" style="display:inline-block;vertical-align:middle;width:14px;height:14px;margin-right:3px;" /><a href="https://beian.mps.gov.cn/#/query/webSearch?code=36010202000854" target="_blank" rel="noreferrer">赣公网安备36010202000854号</a> <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.34.1">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.c922af694cc257bf1ecc41c0dd7b0430f9114ec280ccf67cd2c6ad55f5316c4e.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script>
+(function () {
+    var list = document.getElementById('article-list');
+    var nav = document.getElementById('js-pagination');
+    var controls = document.getElementById('paginator-controls');
+    var info = document.getElementById('paginator-info');
+    if (!list || !nav) return;
+
+    var articles = Array.prototype.slice.call(list.querySelectorAll(':scope > article'));
+    var total = articles.length;
+    if (total === 0) return;
+
+    var pageSize = parseInt(localStorage.getItem('blog_pageSize')) || 10;
+    var currentPage = 1;
+
+    
+    function initButtons() {
+        var btns = controls.querySelectorAll('.paginator-size');
+        btns.forEach(function (btn) {
+            btn.classList.toggle('active', parseInt(btn.dataset.size) === pageSize);
+            btn.onclick = function () {
+                pageSize = parseInt(this.dataset.size);
+                localStorage.setItem('blog_pageSize', pageSize);
+                currentPage = 1;
+                render();
+                initButtons();
+            };
+        });
+    }
+
+    function render() {
+        var totalPages = Math.ceil(total / pageSize);
+        if (currentPage > totalPages) currentPage = totalPages;
+        var start = (currentPage - 1) * pageSize;
+        var end = start + pageSize;
+
+        
+        articles.forEach(function (el, i) {
+            if (i >= start && i < end) {
+                el.style.display = '';
+                el.style.animation = 'fadeInUp 0.5s ease both';
+                el.style.animationDelay = ((i - start) * 0.06) + 's';
+            } else {
+                el.style.display = 'none';
+            }
+        });
+
+        
+        info.textContent = '共 ' + total + ' 篇，第 ' + currentPage + '/' + totalPages + ' 页';
+
+        
+        if (totalPages <= 1) {
+            nav.innerHTML = '';
+            return;
+        }
+
+        var html = '';
+
+        
+        if (currentPage > 1) {
+            html += '<a class="page-link" data-page="' + (currentPage - 1) + '" aria-label="Previous page">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M15 6l-6 6l6 6"/></svg></a>';
+        } else {
+            html += '<span class="page-link disabled" aria-disabled="true">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M15 6l-6 6l6 6"/></svg></span>';
+        }
+
+        
+        for (var p = 1; p <= totalPages; p++) {
+            if (p === 1 || p === totalPages || (p >= currentPage - 2 && p <= currentPage + 2)) {
+                html += '<a class="page-link' + (p === currentPage ? ' current' : '') + '" data-page="' + p + '">' + p + '</a>';
+            } else if (p === currentPage - 3 || p === currentPage + 3) {
+                html += '<span class="page-link disabled">…</span>';
+            }
+        }
+
+        
+        if (currentPage < totalPages) {
+            html += '<a class="page-link" data-page="' + (currentPage + 1) + '" aria-label="Next page">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M9 6l6 6l-6 6"/></svg></a>';
+        } else {
+            html += '<span class="page-link disabled" aria-disabled="true">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M9 6l6 6l-6 6"/></svg></span>';
+        }
+
+        nav.innerHTML = html;
+
+        
+        nav.querySelectorAll('a.page-link').forEach(function (a) {
+            a.style.cursor = 'pointer';
+            a.onclick = function (e) {
+                e.preventDefault();
+                currentPage = parseInt(this.dataset.page);
+                render();
+                
+                list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+        });
+    }
+
+    initButtons();
+    render();
+})();
+</script>
+
+    </body>
+</html>

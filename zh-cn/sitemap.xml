@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kun123.xyz/</loc>
-    <lastmod>2026-03-06T18:25:00+08:00</lastmod>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -11,12 +11,12 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/"
                 />
   </url><url>
     <loc>https://kun123.xyz/categories/</loc>
-    <lastmod>2026-03-06T18:25:00+08:00</lastmod>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -24,9 +24,92 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/categories/"
                 />
+  </url><url>
+    <loc>https://kun123.xyz/tags/fpga/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/categories/fpga-%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/post/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/post/"
+                />
+  </url><url>
+    <loc>https://kun123.xyz/tags/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kun123.xyz/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://kun123.xyz/tags/"
+                />
+  </url><url>
+    <loc>https://kun123.xyz/tags/tangdynasty/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/verilog/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/p/fpga-learning-05-engineering/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/</loc>
+    <lastmod>2026-08-18T00:05:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/p/fpga-learning-04-modular/</loc>
+    <lastmod>2026-08-18T00:04:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9F/</loc>
+    <lastmod>2026-08-18T00:04:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2026-08-18T00:04:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/p/fpga-learning-03-sequential/</loc>
+    <lastmod>2026-08-18T00:03:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91/</loc>
+    <lastmod>2026-08-18T00:03:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E7%8A%B6%E6%80%81%E6%9C%BA/</loc>
+    <lastmod>2026-08-18T00:03:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/testbench/</loc>
+    <lastmod>2026-08-18T00:02:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/p/fpga-learning-02-combinational/</loc>
+    <lastmod>2026-08-18T00:02:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91/</loc>
+    <lastmod>2026-08-18T00:02:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/p/fpga-learning-01-basics/</loc>
+    <lastmod>2026-08-18T00:01:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2026-08-18T00:01:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/p/fpga-learning/</loc>
+    <lastmod>2026-08-18T00:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://kun123.xyz/tags/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/</loc>
+    <lastmod>2026-08-18T00:00:00+08:00</lastmod>
   </url><url>
     <loc>https://kun123.xyz/tags/dac/</loc>
     <lastmod>2026-03-06T18:25:00+08:00</lastmod>
@@ -36,32 +119,6 @@
   </url><url>
     <loc>https://kun123.xyz/tags/pcf8591/</loc>
     <lastmod>2026-03-06T18:25:00+08:00</lastmod>
-  </url><url>
-    <loc>https://kun123.xyz/post/</loc>
-    <lastmod>2026-03-06T18:25:00+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kun123.xyz/en/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="https://kun123.xyz/post/"
-                />
-  </url><url>
-    <loc>https://kun123.xyz/tags/</loc>
-    <lastmod>2026-03-06T18:25:00+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kun123.xyz/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en-us"
-                href="https://kun123.xyz/tags/"
-                />
   </url><url>
     <loc>https://kun123.xyz/tags/%E5%8D%95%E7%89%87%E6%9C%BA/</loc>
     <lastmod>2026-03-06T18:25:00+08:00</lastmod>
@@ -78,7 +135,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%8D%95%E7%89%87%E6%9C%BA/"
                 />
   </url><url>
@@ -106,7 +163,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/tags/iap15f2k61s2/"
                 />
   </url><url>
@@ -122,7 +179,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/p/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%93%E6%A0%8F-%E5%A4%87%E8%B5%9B%E6%8C%87%E5%8D%97%E4%B8%8E%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"
                 />
   </url><url>
@@ -138,7 +195,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/tags/stm32/"
                 />
   </url><url>
@@ -151,7 +208,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/p/stm32-%E6%97%B6%E9%92%9F%E6%A0%91%E5%AE%8C%E5%85%A8%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/"
                 />
   </url><url>
@@ -170,7 +227,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/tags/ch32v30x/"
                 />
   </url><url>
@@ -183,7 +240,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/p/ch32v30x%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E4%BB%8E8051%E5%88%B0risc-v/"
                 />
   </url><url>
@@ -196,7 +253,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/tags/risc-v/"
                 />
   </url><url>
@@ -204,9 +261,6 @@
     <lastmod>2026-02-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://kun123.xyz/tags/%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</loc>
-    <lastmod>2026-02-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://kun123.xyz/tags/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF/</loc>
     <lastmod>2026-02-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://kun123.xyz/p/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E9%80%9A%E5%85%B3%E6%8C%87%E5%8D%97/</loc>
@@ -218,7 +272,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/p/%E6%95%B0%E5%AD%97%E7%94%B5%E8%B7%AF%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E9%80%9A%E5%85%B3%E6%8C%87%E5%8D%97/"
                 />
   </url><url>
@@ -231,7 +285,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/page/"
                 />
   </url><url>
@@ -244,7 +298,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/archives/"
                 />
   </url><url>
@@ -278,7 +332,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/%E5%85%B3%E4%BA%8E/"
                 />
   </url><url>
@@ -290,7 +344,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/search/"
                 />
   </url><url>
@@ -302,7 +356,7 @@
                 />
     <xhtml:link
                 rel="alternate"
-                hreflang="en-us"
+                hreflang="zh-cn"
                 href="https://kun123.xyz/%E5%8F%8B%E9%93%BE/"
                 />
   </url>
